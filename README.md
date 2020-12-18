@@ -1,2 +1,2 @@
-# CalBad court queue
+# Cal Badminton Court Queueing System
 This is a court queue system to be used at open gym at UC Berkeley.
