@@ -19,6 +19,7 @@ const UserInfo = props => {
     const newUser = {};
     Object.assign(newUser, props.user);
     newUser.name = userName;
+    newUser.name2 = userName2;
     props.updateFunction(newUser);
     setIsEdit(false);
   };
