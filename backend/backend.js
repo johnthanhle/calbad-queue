@@ -10,7 +10,7 @@ let queue = [
 	];
 
 const genRanID = () => {
-	return Math.floor(Math.random() * 100);
+	return Math.floor(Math.random() * 1000000);
 };
 
 //let sentPings = [];
