@@ -11,8 +11,8 @@ const UserInfo = props => {
     setUserName(event.target.value);
   };
 
-  const handleTextboxUpdate2 = even => {
-    setUserName2(event.target.value)
+  const handleTextboxUpdate2 = event => {
+    setUserName2(event.target.value);
   };
 
   const save = () => {
