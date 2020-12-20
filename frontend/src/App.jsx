@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminView from "./AdminView";
 import PlayerView from "./PlayerView";
 
-let ws = new WebSocket("ws://cal-badminton.herokuapp.com/");
+let ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
 const WS_RETRY_TIME = 5000;
 
 toast.configure({ draggable: false, autoClose: 8000 });
@@ -70,7 +70,7 @@ function App() {
           const newUsers = msg.value;
           setUsers(newUsers);
         }
-      } else if (msg.type === "notification") {
+      } else if (msg.type === "notification" && 'Notification' in window) {
         // Check to make sure msg is correct
         let notifContent = msg.notifContent;
         if (!notifContent) {
@@ -119,12 +119,18 @@ function App() {
     }
     setUser(JSON.parse(Cookies.get("user")));
     attachWSHandlers(ws);
-    Notification.requestPermission().then(function(result) {
-      console.log("Notif request perm: " + result);
-      if (result !== "granted") {
-        toast.error("Please allow notifications and refresh the page!");
+
+    if ('Notification' in window) { 
+      try {
+      Notification.requestPermission().then(function(result) {
+        console.log("Notif request perm: " + result);
+        if (result !== "granted") {
+          toast.error("Please allow notifications and refresh the page!");
+        }
+    })} catch (error) {
+        return false; 
       }
-    });
+    };
   }, []);
 
   /* TODO Notifications:
