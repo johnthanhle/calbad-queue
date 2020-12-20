@@ -49,10 +49,11 @@ function App() {
   };
 
   const attachWSHandlers = client => {
-    client.addEventListener("open", function(event) {
+    console.log("fuck");
+    /* client.addEventListener("open", function(event) {
       console.log("WS Open");
       setWsConnected(true);
-    });
+    }); */
     client.addEventListener("close", function(event) {
       console.log("WS Close");
       setWsConnected(false);
