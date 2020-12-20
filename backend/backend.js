@@ -1,15 +1,15 @@
 const WebSocket = require("ws");
 
-const wss = new WebSocket.Server({ port: 6969 });
+const wss = new WebSocket.Server({ port: 8888 });
 
 const WEBSOCKET_PING_TIME = 40000;
 
-let queue = [ 
+let queue = [
 	{ uid: 69, name: "Bianca Chow Ling Tam", uid2: 96, name2: "Rando carry", ws: null },
 	{ uid: 69, name: "Bianca Chow Ling Tam", uid2: -1, name2: null, ws: null },
 	];
 
-const genRanID = () => {
+const genRandID = () => {
 	return Math.floor(Math.random() * 1000000);
 };
 
@@ -21,7 +21,7 @@ const pingClient = client => {
   pingMsg.id = client.id;
   console.log(`   Ping sent: ${pingMsg.id}`);
   client.send(JSON.stringify(pingMsg));
-}; 
+};
 
 const clientKeepAlive = client => {
   setTimeout(() => {
@@ -78,29 +78,29 @@ wss.on("connection", ws => {
   			}
   		}
   		if (msg.action == "remove") {
-  			Boolean first = queue.some(u => u.uid == user.uid);
-  			Boolean second = queue.some(u => u.uid2 == user.uid); 
+  			var first = queue.some(u => u.uid == user.uid);
+  			var second = queue.some(u => u.uid2 == user.uid);
   			if (first) {
   				for (var i = 0; i < queue.length; i++) {
   					if (user.uid == queue[i].uid) {
   						queue[i].uid = null;
-  						queue[i].name = null; 
+  						queue[i].name = null;
   						if (queue[i].uid2 == null) {
   							queue.splice(i, 1);
   						}
-  						break; 
-  					} 
+  						break;
+  					}
   				}
   				wss.clients.forEach(sendQueue);
   			} else if (second) {
   				for (var i = 0; i < queue.length; i++) {
   					if (user.uid == queue[i].uid2) {
   						queue[i].uid2 = null;
-  						queue[i].name2 = null; 
+  						queue[i].name2 = null;
   						if (queue[i].uid == null) {
   							queue.splice(i, 1);
   						}
-  						break; 
+  						break;
   					}
   				}
   				wss.clients.forEach(sendQueue);
@@ -119,10 +119,10 @@ wss.on("connection", ws => {
   		sendQueue(ws);
   	}
   } else if (msg.type === "updateid") {
-  	let found = false; 
+  	let found = false;
   	for (var i = 0; i < queue.length; i++) {
   		if (queue[i].uid === msg.uid) {
-	  		found = true; 
+	  		found = true;
 	  		queue[i].ws = ws;
   		}
   	}
@@ -131,5 +131,4 @@ wss.on("connection", ws => {
 });
 sendQueue(ws);
 clientKeepAlive(ws);
-};
-
+});
