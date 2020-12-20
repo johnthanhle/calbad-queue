@@ -43,19 +43,7 @@ const AdminView = props => {
 
   return (
     <Container maxWidth="sm">
-      <h1>Open Gym Admin</h1>
-      <FieldEditor
-        value={meetingLink}
-        label="Meeting link"
-        onSave={setMeetingLink}
-      />
-      {/* <TextField
-        value={meetingLink || ""}
-        onChange={handleTextboxUpdate}
-        label="Meeting link"
-        variant="outlined"
-        size="small"
-      /> */}
+      <h1><center>Open Gym Admin</center></h1>
       <PlayerList
         users={props.users}
         admin={true}
