@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField } from "@material-ui/core";
 import { Edit, Check } from "@material-ui/icons";
 
-const UserInfo = props => {
+const PlayerInfo = props => {
   const [isEdit, setIsEdit] = useState(false);
   const [userName, setUserName] = useState(props.user.name);
   const [userName2, setUserName2] = useState(props.user.name2)
@@ -57,4 +57,4 @@ const UserInfo = props => {
   );
 };
 
-export default UserInfo;
+export default PlayerInfo;
