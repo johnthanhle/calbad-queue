@@ -54,6 +54,18 @@ const backend = () => {
       });
     };
 
+    const notifySpam = (user) => {
+      const uid = user.uid;
+      let notificationMsg = { type: "notification", notifContent: {"title":"Already in the queue!", "body":"Leave the queue to join again"}};
+      notificationMsg = JSON.stringify(notificationMsg);
+      queue.forEach(item => {
+        if (item.uid == uid) {
+          item.ws.send(notificationMsg);
+          return;
+        }
+      });
+    };
+
     ws.on("close", event => {
       console.log(`Closed Connection - ${ws.id} (${wss.clients.size} total connections)`);
     });
@@ -69,9 +81,8 @@ const backend = () => {
   		        queue.push(user);
   		        wss.clients.forEach(sendQueue);
     			} else {
-            const {notifContent} = "Already in the queue!";
             console.log(`* ${user.name}(${user.uid})`);
-            notifyUser(user, notifContent);
+            notifySpam(user);
     			}
     		}
     		if (msg.action == "remove") {

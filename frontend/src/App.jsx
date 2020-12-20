@@ -49,11 +49,10 @@ function App() {
   };
 
   const attachWSHandlers = client => {
-    console.log("fuck");
-    /* client.addEventListener("open", function(event) {
+    client.addEventListener("open", function(event) {
       console.log("WS Open");
       setWsConnected(true);
-    }); */
+    }); 
     client.addEventListener("close", function(event) {
       console.log("WS Close");
       setWsConnected(false);
@@ -61,6 +60,7 @@ function App() {
     });
     client.addEventListener("message", function(event) {
       const msg = JSON.parse(event.data);
+      console.log(msg.notifContent);
       console.log(event);
       if (msg.type === "queue") {
         if (!Array.isArray(msg.value)) {
@@ -69,7 +69,7 @@ function App() {
         } else {
           const newUsers = msg.value;
           setUsers(newUsers);
-        }
+        };
       } else if (msg.type === "notification" && 'Notification' in window) {
         // Check to make sure msg is correct
         let notifContent = msg.notifContent;
@@ -77,6 +77,7 @@ function App() {
           console.log("Missing notifcontent");
           return;
         }
+        console.log(notifContent);
         let n = new Notification(notifContent.title, {
           body: notifContent.body || ""
         });
