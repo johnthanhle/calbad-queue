@@ -28,7 +28,7 @@ const PlayerInfo = props => {
     <div>
       {!isEdit && (
         <h4 onClick={() => setIsEdit(true)}>
-          {props.user.name, props.user.name2} <Edit fontSize="small" />
+          {props.user.name} , {props.user.name2} <Edit fontSize="small" />
         </h4>
       )}
       {isEdit && (
