@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminView from "./AdminView";
 import PlayerView from "./PlayerView";
 
-let ws = new WebSocket("ws://localhost:8888/");
+let ws = new WebSocket("ws://cal-badminton.herokuapp.com/");
 const WS_RETRY_TIME = 5000;
 
 toast.configure({ draggable: false, autoClose: 8000 });

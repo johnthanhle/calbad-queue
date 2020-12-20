@@ -1,6 +1,6 @@
 const backend = () => {
   const WebSocket = require("ws");
-  const wss = new WebSocket.Server({ port: 5000 });
+  const wss = new WebSocket.Server({ port: process.env.PORT  || 8080});
 
   const WEBSOCKET_PING_TIME = 40000;
 
