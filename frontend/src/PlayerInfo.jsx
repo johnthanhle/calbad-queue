@@ -28,7 +28,7 @@ const PlayerInfo = props => {
     <div>
       {!isEdit && (
         <h4 onClick={() => setIsEdit(true)}>
-          {props.user.name} (uid: {props.user.uid}) <Edit fontSize="small" />
+          {props.user.name, props.user.name2} <Edit fontSize="small" />
         </h4>
       )}
       {isEdit && (
@@ -42,7 +42,7 @@ const PlayerInfo = props => {
             size="small"
           />
           <TextField
-            value={userName2 === props.defaultUser.name ? "" : userName}
+            value={userName2 === props.defaultUser.name2 ? "" : userName2}
             onChange={handleTextboxUpdate2}
             onBlur={save}
             label="Partner Name"

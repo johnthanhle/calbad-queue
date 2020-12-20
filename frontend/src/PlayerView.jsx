@@ -21,7 +21,7 @@ const PlayerView = props => {
 
   return (
     <Container maxWidth="sm">
-      <h1>Cal Badminton Open Gym Queue</h1>
+      <h1><center>Open Gym Queue</center></h1>
       {user && (
         <PlayerInfo
           user={user}

@@ -20,8 +20,7 @@ const PlayerList = props => {
           props.users.length > 0
         ) && (
           <Box display="flex" justifyContent="center">
-            <img src={logo.png} alt="Queue is empty" />
-            <h2>Queue is empty</h2>
+            <img src={logo} alt="Queue is empty" />
           </Box>
         )}
 
