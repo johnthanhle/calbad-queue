@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Container, TextField } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import Cookies from "js-cookie";
 
 import PlayerList from "./PlayerList";
-import FieldEditor from "./FieldEditor";
 
 const AdminView = props => {
   const [meetingLink, setMeetingLink] = useState(null);
 
   const notifyFunction = user => {
     const notifContent = {
-      title: props.user.name + " is free!",
-      body: "Please go to court ____",
+      title: "It's your turn to play!",
+      body: "Please go to your court",
     };
     const msg = {
       type: "action",

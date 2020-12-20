@@ -19,9 +19,13 @@ const PlayerList = props => {
           Array.isArray(props.users) &&
           props.users.length > 0
         ) && (
+        <div class="body">
+        <h2><center><b>Queue is currently empty!</b></center></h2>
+        <br></br>
           <Box display="flex" justifyContent="center">
             <img src={logo} alt="Queue is empty" />
           </Box>
+        </div>
         )}
 
         {props.users &&
@@ -31,8 +35,7 @@ const PlayerList = props => {
             <ListItem key={i}>
               <ListItemText
                 primary={
-                  // i + 1 + ". " + u.charAt(0).toUpperCase() + u.substring(1)
-                  i + 1 + ". " + u.name + ", " + u.name2
+                  (u.name2) ? (i + 1 + ". " + u.name + ", " + u.name2) : (i + 1 + ". " + u.name)
                 }
               />
               {props.admin && (
