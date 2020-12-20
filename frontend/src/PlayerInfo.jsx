@@ -43,7 +43,7 @@ const PlayerInfo = props => {
           />
           <TextField
             value={userName2 === props.defaultUser.name ? "" : userName}
-            onChange={handleTextboxUpdate}
+            onChange={handleTextboxUpdate2}
             onBlur={save}
             label="Partner Name"
             variant="outlined"

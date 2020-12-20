@@ -8,6 +8,7 @@ import {
   ListItemSecondaryAction
 } from "@material-ui/core";
 import { Clear, Notifications } from "@material-ui/icons";
+import logo from './logo.png';
 
 const PlayerList = props => {
   return (
@@ -19,7 +20,7 @@ const PlayerList = props => {
           props.users.length > 0
         ) && (
           <Box display="flex" justifyContent="center">
-            <img src="logo.png" alt="Queue is empty">
+            <img src={logo.png} alt="Queue is empty" />
             <h2>Queue is empty</h2>
           </Box>
         )}
