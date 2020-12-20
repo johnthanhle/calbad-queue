@@ -4,10 +4,7 @@ const wss = new WebSocket.Server({ port: 8888 });
 
 const WEBSOCKET_PING_TIME = 40000;
 
-let queue = [
-	{ uid: 69, name: "Bianca Chow Ling Tam", uid2: 96, name2: "Rando carry", ws: null },
-	{ uid: 69, name: "Bianca Chow Ling Tam", uid2: -1, name2: null, ws: null },
-	];
+let queue = [];
 
 const genRandID = () => {
 	return Math.floor(Math.random() * 1000000);
@@ -67,46 +64,26 @@ wss.on("connection", ws => {
   		const user = msg.value;
   		if (msg.action == "add") {
   			if (!queue.some(u => u.uid == user.uid || u.uid2 == user.uid )) {
-  				console.log(`+ ${user.name}(${user.uid}${user.name2}(${user.uid2})`);
+  				console.log(`+ (${user.name})(${user.uid})(${user.name2})(${user.uid2})`);
   				user.ws = ws;
 		        queue.push(user);
 		        wss.clients.forEach(sendQueue);
   			} else {
-  				let notification = {type: "notification", notifContent: "Already in the queue!"}
-  				notification = JSON.stringify(notification);
-  				user.ws.send(notification);
+          const {notifContent} = "Already in the queue!";
+          console.log(`* ${user.name}(${user.uid})`);
+          notifyUser(user, notifContent);
   			}
   		}
   		if (msg.action == "remove") {
-  			var first = queue.some(u => u.uid == user.uid);
-  			var second = queue.some(u => u.uid2 == user.uid);
-  			if (first) {
-  				for (var i = 0; i < queue.length; i++) {
-  					if (user.uid == queue[i].uid) {
-  						queue[i].uid = null;
-  						queue[i].name = null;
-  						if (queue[i].uid2 == null) {
-  							queue.splice(i, 1);
-  						}
-  						break;
-  					}
-  				}
-  				wss.clients.forEach(sendQueue);
-  			} else if (second) {
-  				for (var i = 0; i < queue.length; i++) {
-  					if (user.uid == queue[i].uid2) {
-  						queue[i].uid2 = null;
-  						queue[i].name2 = null;
-  						if (queue[i].uid == null) {
-  							queue.splice(i, 1);
-  						}
-  						break;
-  					}
-  				}
-  				wss.clients.forEach(sendQueue);
-  			}
+        if (queue.some(u => u.uid == user.uid)) {
+          for (var i = 0; i < queue.length; i++) {
+            if (queue[i].uid == user.uid) {
+              queue.splice(i, 1);
+            }
+          }
+          wss.clients.forEach(sendQueue);
+        }
   		} else if (msg.action == "sendnotif") {
-  			const user = msg.val;
   			const {notifContent} = msg;
   			console.log(`* ${user.name}(${user.uid})`);
        		notifyUser(user, notifContent);
