@@ -18,7 +18,7 @@ const PlayerInfo = props => {
   const save = () => {
     const newUser = {};
     Object.assign(newUser, props.user);
-    if (userName == undefined) {
+    if (userName === undefined) {
       return; 
     }
     newUser.name = userName
