@@ -12,7 +12,7 @@ const WS_RETRY_TIME = 5000;
 
 toast.configure({ draggable: false, autoClose: 8000 });
 
-const DEFAULT_USER = { uid: -1, name: "No Name Provided", uid2: -1, name2: "No Partner Name Provided" };
+const DEFAULT_USER = { uid: -1, name: undefined, uid2: -1, name2: "No Partner Name Provided" };
 
 function App() {
   const [user, setUser] = useState();
@@ -27,7 +27,7 @@ function App() {
     setTimeout(() => {
       console.log("WS - attempt reconnect");
       if (ws.readyState === WebSocket.CLOSED) {
-        ws = new WebSocket("ws://localhost:8888/");
+        ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
         if (ws.readyState !== WebSocket.OPEN) {
           console.log("WS - failed reconnect");
           wsReconnect();
