@@ -18,11 +18,15 @@ const PlayerInfo = props => {
   const save = () => {
     const newUser = {};
     Object.assign(newUser, props.user);
-    if (userName === undefined) {
+    if (userName === undefined || userName.trim().length <= 0) {
       return; 
     }
     newUser.name = userName
-    newUser.name2 = userName2;
+    if (userName2 && userName2.trim().length <= 0) {
+      newUser.name2 = undefined;
+    } else {
+      newUser.name2 = userName2;
+    }
     props.updateFunction(newUser);
     setIsEdit(false);
   };

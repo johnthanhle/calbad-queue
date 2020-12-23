@@ -5,7 +5,7 @@ import { Add, Remove } from "@material-ui/icons";
 import PlayerList from "./PlayerList";
 import PlayerInfo from "./PlayerInfo";
 
-const DEFAULT_USER = { uid: -1, name: "No name provided", uid2: -1, name2: "No partner name provided" };
+const DEFAULT_USER = { uid: -1, name: undefined, uid2: -1, name2: "No partner name provided" };
 
 const PlayerView = props => {
   const {user, users} = props;
