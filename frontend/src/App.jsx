@@ -12,7 +12,7 @@ const WS_RETRY_TIME = 5000;
 
 toast.configure({ draggable: false, autoClose: 8000 });
 
-const DEFAULT_USER = { uid: -1, name: undefined, uid2: -1, name2: "No Partner Name Provided" };
+const DEFAULT_USER = { uid: -1, name: undefined, uid2: -1, name2: undefined };
 
 function App() {
   const [user, setUser] = useState();

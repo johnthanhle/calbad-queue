@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container } from "@material-ui/core";
-import Cookies from "js-cookie";
-
 import PlayerList from "./PlayerList";
 
 const AdminView = props => {
-  const [meetingLink, setMeetingLink] = useState(null);
 
   const notifyFunction = user => {
     const notifContent = {
@@ -25,20 +22,6 @@ const AdminView = props => {
     const msg = { type: "action", action: "remove", value: user };
     props.ws.send(JSON.stringify(msg));
   };
-
-  useEffect(() => {
-    if (!Cookies.get("ta")) {
-      console.log("no c");
-      Cookies.set("ta", { meetingLink: null });
-    } else {
-      const ta = JSON.parse(Cookies.get("ta"));
-      setMeetingLink(ta.meetingLink);
-    }
-  }, []);
-
-  useEffect(() => {
-    Cookies.set("ta", { meetingLink: meetingLink }, { expires: 7 });
-  }, [meetingLink]);
 
   return (
     <Container maxWidth="sm">

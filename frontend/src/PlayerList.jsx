@@ -5,7 +5,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
+  Typography
 } from "@material-ui/core";
 import { Clear, Notifications } from "@material-ui/icons";
 import logo from './logo.png';
@@ -34,8 +35,10 @@ const PlayerList = props => {
           props.users.map((u, i) => (
             <ListItem key={i}>
               <ListItemText
-                primary={
-                  (u.name2) ? (i + 1 + ". " + u.name + ", " + u.name2) : (i + 1 + ". " + u.name)
+              disableTypography
+                primary={<Typography variant="body">
+                  {(u.name2) ? (i + 1 + ". " + u.name + ", " + u.name2) : (i + 1 + ". " + u.name)}
+                  </Typography>
                 }
               />
               {props.admin && (
