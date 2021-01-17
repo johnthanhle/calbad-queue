@@ -27,7 +27,7 @@ const CourtInfo = props => {
             var canFree = courtStatus.filter(function (item) {
                 return item.isFree;
             });
-            var numNeeded = targetNumber - courtStatus.length;
+            var numNeeded = courtStatus.length - targetNumber;
             if (numNeeded > canFree.length) {
                 //throw error since can't free enough courts
 
@@ -45,13 +45,14 @@ const CourtInfo = props => {
 
             }
         } else if (courtStatus.length < targetNumber) {
-            var numNeeded = courtStatus.length - targetNumber;
+            var numNeeded = targetNumber - courtStatus.length;
             var newCourts = Object.assign(courtStatus);
             while (numNeeded > 0) {
-                newCourts.push({uid: genRandID(), pair1: null, pair2: null, isFree: true})
+                newCourts.push({uid: genRandID(), pair1: null, pair2: null, isFree: true});
                 numNeeded -= 1;
             }
             setCourtStatus(newCourts);
+            console.log("new", newCourts);
             props.updateBackend(courtStatus);
             props.updateCookie(courtStatus);
             setIsEdit(false);
