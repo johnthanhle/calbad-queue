@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField } from "@material-ui/core";
 import { Edit, Check } from "@material-ui/icons";
 
@@ -6,6 +6,60 @@ const CourtInfo = props => {
   const [isEdit, setIsEdit] = useState(false);
   const [courtStatus, setCourtStatus] = useState(props.courts);
   const [numCourts, setNumCourts] = useState(props.courts.length);
+
+  useEffect(() => {
+    var targetNumber = numCourts;
+    var numNeeded;
+    var newCourts;
+    if (!Number.isInteger(targetNumber)) {
+      console.log('Invalid input');
+      setNumCourts(courtStatus.length);
+      return; 
+    } else if (targetNumber > 10) {
+      console.log('Too many courts!');
+      setNumCourts(courtStatus.length);
+      return;
+    } else {
+      //three cases: add, delete or do nothing
+      if (targetNumber > courtStatus.length) {
+        //append new courts
+        numNeeded = targetNumber - courtStatus.length;
+        while (numNeeded > 0) {
+          courtStatus.push({uid: genRandID(), pair1: null, pair2: null, isFree: true});
+          numNeeded -= 1;
+        }
+        props.updateBackend(courtStatus);
+        props.updateCookie(courtStatus);
+        return;
+      } else if (targetNumber < courtStatus.length) {
+        // check if we have enough free courts to delete
+        numNeeded = courtStatus.length - targetNumber;
+        var canFree = 0;
+        var canFreeIndex = [];
+        for (let i = 0; i < courtStatus.length; i++) {
+          if (courtStatus[i].isFree) {
+            canFree += 1;
+            canFreeIndex.push(i);
+          }
+        }
+        console.log("to pop", canFreeIndex);
+        if (canFree >= numNeeded) {
+          for (let i = 0; i < numNeeded; i++) {
+            const popInd = canFreeIndex.length - 1 - i;
+            courtStatus.splice(canFreeIndex[popInd], 1);
+          }
+          props.updateBackend(courtStatus);
+          props.updateCookie(courtStatus);
+          return;
+        } else {
+          console.log('All courts are in use, please mark the court open if you want to remove it!');
+          setNumCourts(courtStatus.length);
+          return;
+        }
+
+      }
+    }
+  }, [isEdit, props]);
 
   const genRandID = () => {
     return Math.floor(Math.random() * 1000);
@@ -22,67 +76,6 @@ const CourtInfo = props => {
   };
 
   const save = () => {
-    //update court list as necessary, then update backend and cookie
-    var targetNumber = numCourts;
-    var numNeeded;
-    var newCourts;
-    if (!Number.isInteger(targetNumber)) {
-        console.log('Invalid input');
-        return; 
-    } else {
-        if (true || courtStatus.length > targetNumber) {
-          //Fix Later, too tired, logic is broken, works for now by replacing everything lol
-            //check if it is possible to free court if not throw error
-            /*
-            var cantFree = 0;
-            for (var j = 0; j < courtStatus.length; j++) {
-              if (!(courtStatus[j].isFree)) {
-                cantFree += 1; 
-              }
-            }
-            if (targetNumber < cantFree) {
-                console.log('All courts are in use, please mark the court open if you want to remove it!');
-                setNumCourts(courtStatus.length);
-                return; */
-            // } else {
-            if (targetNumber > 10) {
-              console.log('Too many courts!');
-              setNumCourts(courtStatus.length);
-              return;
-            } else if (targetNumber > courtStatus.length) {
-              const length = courtStatus.length;
-              while (targetNumber > length) {
-                courtStatus.push({uid: genRandID(), pair1: null, pair2: null, isFree: true});
-                targetNumber -= 1; 
-              }
-              return; 
-            }
-            const numPop = courtStatus.length - targetNumber;
-            for (var i = 0; i < numPop; i++) {
-                courtStatus.pop(courtStatus[i]);
-            } 
-            props.updateBackend(courtStatus);
-            props.updateCookie(courtStatus);
-            setIsEdit(false);
-            return; 
-        } else if (false && courtStatus.length < targetNumber) {
-            if (targetNumber > 10) {
-              console.log('Too Many Courts!');
-              return; 
-            } else {
-              newCourts = [];
-              numNeeded = targetNumber;
-              while (numNeeded > 0) {
-                  newCourts.push({uid: genRandID(), pair1: null, pair2: null, isFree: true});
-                  numNeeded -= 1;
-              }
-              setCourtStatus(newCourts);
-              props.updateBackend(courtStatus);
-              props.updateCookie(courtStatus);
-              setIsEdit(false);
-            }
-        }
-    }
     setIsEdit(false);
   };
 

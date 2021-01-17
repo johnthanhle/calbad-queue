@@ -114,26 +114,26 @@ const backend = () => {
           wss.clients.forEach(sendCourts);
         } 
     	}
-    else if (msg.type == "pingres") {
-    	console.log(`   Ping res:  ${msg.id}`);
-    } else if (msg.type === "request") {
-    	if (msg.value === "queue") {
-    		sendQueue(ws);
-    	}
-    } else if (msg.type === "updateid") {
-    	let found = false;
-    	for (var i = 0; i < queue.length; i++) {
-    		if (queue[i].uid === msg.uid) {
-  	  		found = true;
-  	  		queue[i].ws = ws;
-    		}
-    	}
-    	console.log(`└ Updateid ${msg.uid} (found: ${found})`);
-    }
-  });
-  sendQueue(ws);
-  sendCourts(ws);
-  clientKeepAlive(ws);
+      else if (msg.type == "pingres") {
+        console.log(`   Ping res:  ${msg.id}`);
+      } else if (msg.type === "request") {
+        if (msg.value === "queue") {
+          sendQueue(ws);
+        }
+      } else if (msg.type === "updateid") {
+        let found = false;
+        for (var i = 0; i < queue.length; i++) {
+          if (queue[i].uid === msg.uid) {
+            found = true;
+            queue[i].ws = ws;
+          }
+        }
+        console.log(`└ Updateid ${msg.uid} (found: ${found})`);
+      }
+    });
+    sendQueue(ws);
+    sendCourts(ws);
+    clientKeepAlive(ws);
   });
 };
 
