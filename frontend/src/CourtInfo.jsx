@@ -12,17 +12,18 @@ const CourtInfo = props => {
   };
 
   const handleTextboxUpdate = event => {
-    setNumCourts(event.target.value);
+    setNumCourts(Number(event.target.value));
   };
 
   const save = () => {
     //update court list as necessary, then update backend and cookie
     const targetNumber = numCourts;
+    console.log("num", targetNumber);
     if (!Number.isInteger(targetNumber)) {
         //TODO: throw error
-
+        console.log("not int", "help1")
     } else {
-        if (courtStatus.length < targetNumber) {
+        if (courtStatus.length > targetNumber) {
             //check if it is possible to free court if not throw error
             var canFree = courtStatus.filter(function (item) {
                 return item.isFree;
@@ -30,6 +31,7 @@ const CourtInfo = props => {
             var numNeeded = targetNumber - courtStatus.length;
             if (numNeeded > canFree.length) {
                 //throw error since can't free enough courts
+                console.log("not int", "help2")
             } else {
                 var newCourts = Object.assign(courtStatus);
                 for (var i = 0; i < numNeeded; i++) {
@@ -41,8 +43,9 @@ const CourtInfo = props => {
                 props.updateBackend(courtStatus);
                 props.updateCookie(courtStatus);
                 setIsEdit(false);
+                console.log("not int", "help3")
             }
-        } else if (courtStatus.length > targetNumber) {
+        } else if (courtStatus.length < targetNumber) {
             var numNeeded = courtStatus.length - targetNumber;
             var newCourts = Object.assign(courtStatus);
             while (numNeeded > 0) {
@@ -53,9 +56,11 @@ const CourtInfo = props => {
             props.updateBackend(courtStatus);
             props.updateCookie(courtStatus);
             setIsEdit(false);
+            console.log("not int", "help4")
 
         }
     }
+    setIsEdit(false);
   };
 
   return (

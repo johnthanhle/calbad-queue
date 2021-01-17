@@ -9,7 +9,6 @@ import courtImage from "./court.png";
 const CourtList = props => {
   return (
     <div>
-      <Grid container>
         {!(
           props.courts &&
           Array.isArray(props.courts) &&
@@ -19,6 +18,8 @@ const CourtList = props => {
         <h2><center><b>No reserved courts!</b></center></h2>
         </div>
         )}
+      <Grid container>
+        
 
         {props.courts &&
           Array.isArray(props.courts) &&

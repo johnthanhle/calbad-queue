@@ -97,7 +97,7 @@ function App() {
         ws.send(pingMsgResp);
       } else if (msg.type === "courts") {
         //TODO:
-        if (!Array.isArray(msg.status)) {
+        if (!Array.isArray(msg.value)) {
           console.log("WS ERROR: court info not array");
           setCourtStatus([]);
         } else {
@@ -181,7 +181,7 @@ function App() {
               users={users} 
               ws={ws} 
               courtStatus={courtStatus} 
-              courteUpdateFunction = {updateCourts}
+              courtUpdateFunction = {updateCourts}
             />
           </Route>
           <Route path="/">
