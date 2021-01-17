@@ -7,20 +7,19 @@ import {
 import courtImage from "./court.png";
 
 const CourtList = props => {
+  if (!(
+      props.courts &&
+      Array.isArray(props.courts) &&
+      props.courts.length > 0
+    )) {
+      return (
+    <div class="body" align="center">
+    <h2><center><b>No reserved courts!</b></center></h2>
+    </div>)
+    }
   return (
     <div>
-        {!(
-          props.courts &&
-          Array.isArray(props.courts) &&
-          props.courts.length > 0
-        ) && (
-        <div class="body" align="center">
-        <h2><center><b>No reserved courts!</b></center></h2>
-        </div>
-        )}
       <Grid container>
-        
-
         {props.courts &&
           Array.isArray(props.courts) &&
           props.courts.length > 0 &&
