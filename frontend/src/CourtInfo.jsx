@@ -12,7 +12,13 @@ const CourtInfo = props => {
   };
 
   const handleTextboxUpdate = event => {
-    setNumCourts(Number(event.target.value));
+    var userInput = Number(event.target.value);
+    if (Number.isNaN(userInput)) {
+      setNumCourts(props.defaultNumber);
+    } else {
+      setNumCourts(userInput);
+    }
+    
   };
 
   const save = () => {
@@ -46,16 +52,21 @@ const CourtInfo = props => {
             }
         } else if (courtStatus.length < targetNumber) {
             var numNeeded = targetNumber - courtStatus.length;
-            var newCourts = Object.assign(courtStatus);
-            while (numNeeded > 0) {
-                newCourts.push({uid: genRandID(), pair1: null, pair2: null, isFree: true});
-                numNeeded -= 1;
+            if (numNeeded > 10) {
+              //too many courts throw error
+            } else {
+              var newCourts = Object.assign(courtStatus);
+              while (numNeeded > 0) {
+                  newCourts.push({uid: genRandID(), pair1: null, pair2: null, isFree: true});
+                  numNeeded -= 1;
+              }
+              setCourtStatus(newCourts);
+              console.log("new", newCourts);
+              props.updateBackend(courtStatus);
+              props.updateCookie(courtStatus);
+              setIsEdit(false);
             }
-            setCourtStatus(newCourts);
-            console.log("new", newCourts);
-            props.updateBackend(courtStatus);
-            props.updateCookie(courtStatus);
-            setIsEdit(false);
+            
 
 
         }
@@ -73,7 +84,7 @@ const CourtInfo = props => {
       {isEdit && (
         <div>
           <TextField
-            value={numCourts === props.defaultNumber ? "" : numCourts}
+            value={numCourts}
             onChange={handleTextboxUpdate}
             onBlur={save}
             label="Number of Courts"
