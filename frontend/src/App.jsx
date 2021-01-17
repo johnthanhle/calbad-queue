@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminView from "./AdminView";
 import PlayerView from "./PlayerView";
 
-let ws = new WebSocket("ws://localhost:8080/");
+let ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
 const WS_RETRY_TIME = 5000;
 
 toast.configure({ draggable: false, autoClose: 8000 });
@@ -28,8 +28,7 @@ function App() {
     setTimeout(() => {
       console.log("WS - attempt reconnect");
       if (ws.readyState === WebSocket.CLOSED) {
-        ws = new WebSocket("ws://localhost:8080/");
-        // wss://cal-badminton.herokuapp.com/
+        ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
         if (ws.readyState !== WebSocket.OPEN) {
           console.log("WS - failed reconnect");
           wsReconnect();
