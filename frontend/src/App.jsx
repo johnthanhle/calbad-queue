@@ -131,10 +131,7 @@ function App() {
       );
     }
     setUser(JSON.parse(Cookies.get("user")));
-    if (!Cookies.get("numCourts")) {
-      Cookies.set("numCourts", 0, { expires: 2 });
-    }
-    setNumCourts(JSON.parse(Cookies.get("numCourts")));
+   
     if (!Cookies.get("courtStatus")) {
       Cookies.set("courtStatus", [], { expires: 2 });
     }
@@ -153,7 +150,7 @@ function App() {
         return false; 
       }
     };
-  }, [courtStatus, numCourts, user]);
+  }, []);
 
   /* TODO Notifications:
         - If device doesnt support notifications (prop: notSupported)
