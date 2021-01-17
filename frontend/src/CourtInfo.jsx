@@ -18,10 +18,9 @@ const CourtInfo = props => {
   const save = () => {
     //update court list as necessary, then update backend and cookie
     const targetNumber = numCourts;
-    console.log("num", targetNumber);
     if (!Number.isInteger(targetNumber)) {
         //TODO: throw error
-        console.log("not int", "help1")
+
     } else {
         if (courtStatus.length > targetNumber) {
             //check if it is possible to free court if not throw error
@@ -31,7 +30,7 @@ const CourtInfo = props => {
             var numNeeded = targetNumber - courtStatus.length;
             if (numNeeded > canFree.length) {
                 //throw error since can't free enough courts
-                console.log("not int", "help2")
+
             } else {
                 var newCourts = Object.assign(courtStatus);
                 for (var i = 0; i < numNeeded; i++) {
@@ -43,7 +42,7 @@ const CourtInfo = props => {
                 props.updateBackend(courtStatus);
                 props.updateCookie(courtStatus);
                 setIsEdit(false);
-                console.log("not int", "help3")
+
             }
         } else if (courtStatus.length < targetNumber) {
             var numNeeded = courtStatus.length - targetNumber;
@@ -56,7 +55,7 @@ const CourtInfo = props => {
             props.updateBackend(courtStatus);
             props.updateCookie(courtStatus);
             setIsEdit(false);
-            console.log("not int", "help4")
+
 
         }
     }

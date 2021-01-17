@@ -132,11 +132,11 @@ function App() {
     }
     setUser(JSON.parse(Cookies.get("user")));
    
-    if (!Cookies.get("courtStatus")) {
-      Cookies.set("courtStatus", [], { expires: 2 });
+    if (!Cookies.get("courts")) {
+      Cookies.set("courts", [], { expires: 2 });
     }
-    console.log("cookie", Cookies.get("courtStatus"));
-    setCourtStatus(JSON.parse(Cookies.get("courtStatus")));
+
+    setCourtStatus(JSON.parse(Cookies.get("courts")));
     attachWSHandlers(ws);
 
     if ('Notification' in window) { 

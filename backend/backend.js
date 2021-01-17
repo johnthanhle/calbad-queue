@@ -110,7 +110,7 @@ const backend = () => {
          		notifyUser(user, notifContent);
     		} else if (msg.action == "courtStatusUpdate") {
           courts = msg.value;
-          console.log(courts);
+          console.log("status", courts);
           wss.clients.forEach(sendCourts);
         } 
         // else if (msg.action == "courtNumberUpdate") {
