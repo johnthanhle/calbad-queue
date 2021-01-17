@@ -113,30 +113,6 @@ const backend = () => {
           console.log("status", courts);
           wss.clients.forEach(sendCourts);
         } 
-        // else if (msg.action == "courtNumberUpdate") {
-        //   const newNum = msg.value;
-        //   if (newNum > numCourts) {
-        //     while (numCourts != newNum) {
-        //       let courtInfo = {uid: getRandId(), pair1: null, pair2: null, isFree: true};
-        //       courts.push(courtInfo);
-        //       numCourts += 1;
-        //     }
-        //   } else if (newNum < numCourts) {
-        //     var indicestoDelete = [];
-        //     for (var i = 0; i < courts.length; i++) {
-        //       if (courts[i].isFree) {
-        //         indicestoDelete.push(i);
-        //       }
-        //     }
-        //     var numNeeded = numCourts - newNum;
-        //     if (indicestoDelete < numNeeded) {
-        //       consol
-        //     }
-        //   }
-        //   console.log("courrts", courts);
-        //   console.log("cort", numCourts)
-        //   wss.clients.forEach(sendCourts);
-        // }
     	}
     else if (msg.type == "pingres") {
     	console.log(`   Ping res:  ${msg.id}`);
