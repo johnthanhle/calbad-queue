@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useState, useEffect, useRef} from "react";
 import {
   Grid,
   ListItemText,
-  Typography
+  Typography,
+  Button, 
 } from "@material-ui/core";
 import courtImage from "./court.png";
 
 const CourtList = props => {
+  const [court, editCourt] = useState([]);
+
+  const save = newCourt => {
+    props.updateBackend(newCourt);
+    props.updateCookie(newCourt);
+  };
+
+  useEffect(() => {
+    editCourt(props.courtStatus);
+  }, [court, props.courtStatus]);
+
   if (!(
-      props.courts &&
-      Array.isArray(props.courts) &&
-      props.courts.length > 0
+      court &&
+      Array.isArray(court) &&
+      court.length > 0
     )) {
       return (
     <div class="body" align="center">
@@ -19,36 +31,42 @@ const CourtList = props => {
     }
   return (
     <div>
-      <Grid container>
-        {props.courts &&
-          Array.isArray(props.courts) &&
-          props.courts.length > 0 &&
-          props.courts.map((u, i) => (
-            <Grid item key={i} spacing="2">
+      <Grid container spacing={2}>
+        {court &&
+          Array.isArray(court) &&
+          court.length > 0 &&
+          court.map((u, i) => (
+            <Grid item key={i}>
               <div>
-                <img src={courtImage} alt="Court image"/>
+                <img src={courtImage} alt=""/>
                 <ListItemText
                 disableTypography
                     primary={<Typography variant="body">
                     {"Court " + (i + 1)}
                     </Typography>
-                    }
-                    
+                    } 
+                />
+                <ListItemText
+                disableTypography
+                    primary={<Typography variant="body">
+                    Status: {!court[i].isFree ? "IN USE" : "OPEN"}
+                    </Typography>
+                    } 
                 />
                 {props.admin && (
-
-                    <button 
-                    // set onClick to change isFree to false and assign players
-                    // then send update using 
-                    // onClick={ () => {
-                    //     props.courts[i].isFree = !props.courts[i]
-                    // }}
+                    <Button
+                      onClick={ () => save(court.map(item => 
+                        item.uid === court[i].uid ? 
+                        {uid: item.uid, pair1: item.pair1, pair2: item.pair2, isFree: !item.isFree}
+                        : item))}
+                      color="primary"
+                      variant="contained"
                     >
-                        {u ? "Mark occupied" : "Mark free"}
-                    </button>
-
+                    {court[i].isFree ? "Mark occupied" : "Mark free"}
+                    </Button>
                 )}
               </div>
+              <br></br>
             </Grid>
           ))}
       </Grid>

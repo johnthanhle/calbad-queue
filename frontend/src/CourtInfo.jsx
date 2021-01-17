@@ -23,52 +23,64 @@ const CourtInfo = props => {
 
   const save = () => {
     //update court list as necessary, then update backend and cookie
-    const targetNumber = numCourts;
+    var targetNumber = numCourts;
+    var numNeeded;
+    var newCourts;
     if (!Number.isInteger(targetNumber)) {
-        //TODO: throw error
-
+        console.log('Invalid input');
+        return; 
     } else {
-        if (courtStatus.length > targetNumber) {
+        if (true || courtStatus.length > targetNumber) {
+          //Fix Later, too tired, logic is broken, works for now by replacing everything lol
             //check if it is possible to free court if not throw error
-            var canFree = courtStatus.filter(function (item) {
-                return item.isFree;
-            });
-            var numNeeded = courtStatus.length - targetNumber;
-            if (numNeeded > canFree.length) {
-                //throw error since can't free enough courts
-
-            } else {
-                var newCourts = Object.assign(courtStatus);
-                for (var i = 0; i < numNeeded; i++) {
-                    const itemToPop = canFree[i];
-                    const ind = newCourts.indexOf(itemToPop);
-                    newCourts.pop(ind);
-                }
-                setCourtStatus(newCourts);
-                props.updateBackend(courtStatus);
-                props.updateCookie(courtStatus);
-                setIsEdit(false);
-
+            /*
+            var cantFree = 0;
+            for (var j = 0; j < courtStatus.length; j++) {
+              if (!(courtStatus[j].isFree)) {
+                cantFree += 1; 
+              }
             }
-        } else if (courtStatus.length < targetNumber) {
-            var numNeeded = targetNumber - courtStatus.length;
-            if (numNeeded > 10) {
-              //too many courts throw error
+            if (targetNumber < cantFree) {
+                console.log('All courts are in use, please mark the court open if you want to remove it!');
+                setNumCourts(courtStatus.length);
+                return; */
+            // } else {
+            if (targetNumber > 10) {
+              console.log('Too many courts!');
+              setNumCourts(courtStatus.length);
+              return;
+            } else if (targetNumber > courtStatus.length) {
+              const length = courtStatus.length;
+              while (targetNumber > length) {
+                courtStatus.push({uid: genRandID(), pair1: null, pair2: null, isFree: true});
+                targetNumber -= 1; 
+              }
+              return; 
+            }
+            const numPop = courtStatus.length - targetNumber;
+            for (var i = 0; i < numPop; i++) {
+                courtStatus.pop(courtStatus[i]);
+            } 
+            props.updateBackend(courtStatus);
+            props.updateCookie(courtStatus);
+            setIsEdit(false);
+            return; 
+        } else if (false && courtStatus.length < targetNumber) {
+            if (targetNumber > 10) {
+              console.log('Too Many Courts!');
+              return; 
             } else {
-              var newCourts = Object.assign(courtStatus);
+              newCourts = [];
+              numNeeded = targetNumber;
               while (numNeeded > 0) {
                   newCourts.push({uid: genRandID(), pair1: null, pair2: null, isFree: true});
                   numNeeded -= 1;
               }
               setCourtStatus(newCourts);
-              console.log("new", newCourts);
               props.updateBackend(courtStatus);
               props.updateCookie(courtStatus);
               setIsEdit(false);
             }
-            
-
-
         }
     }
     setIsEdit(false);
@@ -84,7 +96,7 @@ const CourtInfo = props => {
       {isEdit && (
         <div>
           <TextField
-            value={numCourts}
+            value={numCourts === 0 ? '' : numCourts}
             onChange={handleTextboxUpdate}
             onBlur={save}
             label="Number of Courts"
@@ -95,7 +107,6 @@ const CourtInfo = props => {
         </div>
       )}
     </div>
-
   );
 };
 

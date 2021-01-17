@@ -62,7 +62,6 @@ function App() {
     });
     client.addEventListener("message", function(event) {
       const msg = JSON.parse(event.data);
-      console.log(msg.notifContent);
       console.log(event);
       if (msg.type === "queue") {
         if (!Array.isArray(msg.value)) {
@@ -152,12 +151,6 @@ function App() {
     };
   }, []);
 
-  /* TODO Notifications:
-        - If device doesnt support notifications (prop: notSupported)
-        - If user declines notifications (prop: onPermissionDenied, askAgain=true to request again)
-        - props.options (body, tag, icon)
-  */
-
   const updateUser = newUser => {
     console.log("NEW USER: ", newUser);
     Cookies.set("user", newUser, { expires: 7 });
@@ -166,7 +159,7 @@ function App() {
 
   const updateCourts = newCourts => {
     console.log("NEW COURTS: ", newCourts);
-    Cookies.set("courts", newCourts, { expires: 2 });
+    Cookies.set("courts", newCourts, { expires: 365 });
     setCourtStatus(newCourts);
   }
 
@@ -191,6 +184,7 @@ function App() {
               userUpdateFunction={updateUser}
               wsSend={wsSend}
               courtStatus={courtStatus}
+              courtUpdateFunction = {updateCourts}
             />
           </Route>
         </Switch>

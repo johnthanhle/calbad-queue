@@ -51,12 +51,11 @@ const AdminView = props => {
         updateCookie={props.courtUpdateFunction}
       />
       <CourtList 
-        courts={props.courtStatus}
+        courtStatus={props.courtStatus}
         admin={true}
-        updateStatusFunction={updateCourtStatus}
+        updateBackend={updateCourtStatus}
+        updateCookie={props.courtUpdateFunction}
       />
-      
-
     </Container>
   );
 };

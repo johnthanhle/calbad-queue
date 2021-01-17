@@ -132,6 +132,7 @@ const backend = () => {
     }
   });
   sendQueue(ws);
+  sendCourts(ws);
   clientKeepAlive(ws);
   });
 };

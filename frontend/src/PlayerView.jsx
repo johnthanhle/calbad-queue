@@ -20,6 +20,11 @@ const PlayerView = props => {
     props.wsSend(JSON.stringify(msg));
   };
 
+  const updateCourtStatus = courts => {
+    const msg = { type: "action", action: "courtStatusUpdate", value: courts};
+    props.wsSend(JSON.stringify(msg));
+  }
+
   return (
     <Container maxWidth="sm">
       <h1><center>Open Gym Queue</center></h1>
@@ -53,7 +58,10 @@ const PlayerView = props => {
           </Button>
         </Box>
       </Box>
-      <CourtList courts={props.courtStatus} />
+      <CourtList 
+        courtStatus={props.courtStatus} 
+        updateBackend={updateCourtStatus}
+        updateCookie={props.courtUpdateFunction} />
     </Container>
   );
 };
