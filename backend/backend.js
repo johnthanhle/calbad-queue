@@ -5,6 +5,8 @@ const backend = () => {
   const WEBSOCKET_PING_TIME = 40000;
 
   let queue = [];
+  let courts = [];
+  let numCourts = 0;
 
   const genRandID = () => {
   	return Math.floor(Math.random() * 1000000);
@@ -33,6 +35,15 @@ const backend = () => {
   wss.on("connection", ws => {
     ws.id = genRandID();
     console.log(`Opened Connection - ${ws.id} (${wss.clients.size} total connections)`);
+    
+    const sendCourts = client => {
+      let courtsCopy = [];
+      courts.forEach(item => {
+        courtsCopy.push(item);
+      });
+      client.send(JSON.stringify({ type: "courts", status: courtsCopy, number: numCourts}));
+    }
+    
     const sendQueue = client => {
       let queueCopy = [];
       queue.forEach(item => {
@@ -85,7 +96,7 @@ const backend = () => {
             notifySpam(user);
     			}
     		}
-    		if (msg.action == "remove") {
+    		else if (msg.action == "remove") {
           if (queue.some(u => u.uid == user.uid)) {
             for (var i = 0; i < queue.length; i++) {
               if (queue[i].uid == user.uid) {
@@ -98,7 +109,33 @@ const backend = () => {
     			const {notifContent} = msg;
     			console.log(`* ${user.name}(${user.uid})`);
          		notifyUser(user, notifContent);
-    		}
+    		} else if (msg.action == "courtStatusUpdate") {
+          courts = msg.value;
+          wss.clients.forEach(sendCourts);
+        } else if (msg.action == "courtNumberUpdate") {
+          const newNum = msg.value;
+          if (newNum > numCourts) {
+            while (numCourts != newNum) {
+              let courtInfo = {uid: getRandId(), pair1: "", pair2: "", isFree: true};
+              courts.push(courtInfo);
+              numCourts += 1;
+            }
+          } else if (newNum < numCourts) {
+            var indicestoDelete = [];
+            for (var i = 0; i < courts.length; i++) {
+              if (courts[i].isFree) {
+                indicestoDelete.push(i);
+              }
+            }
+            var numNeeded = numCourts - newNum;
+            if (indicestoDelete < numNeeded) {
+              consol
+            }
+          }
+          console.log("courrts", courts);
+          console.log("cort", numCourts)
+          wss.clients.forEach(sendCourts);
+        }
     	}
     else if (msg.type == "pingres") {
     	console.log(`   Ping res:  ${msg.id}`);

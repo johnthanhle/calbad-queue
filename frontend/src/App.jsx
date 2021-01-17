@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminView from "./AdminView";
 import PlayerView from "./PlayerView";
 
-let ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
+let ws = new WebSocket("ws://localhost:8080/");
 const WS_RETRY_TIME = 5000;
 
 toast.configure({ draggable: false, autoClose: 8000 });
@@ -17,6 +17,7 @@ const DEFAULT_USER = { uid: -1, name: undefined, uid2: -1, name2: undefined };
 function App() {
   const [user, setUser] = useState();
   const [users, setUsers] = useState([]);
+  const [courtStatus, setCourtStatus] = useState([]);
   const [wsConnected, setWsConnected] = useState(false);
 
   const genRandID = () => {
@@ -27,7 +28,8 @@ function App() {
     setTimeout(() => {
       console.log("WS - attempt reconnect");
       if (ws.readyState === WebSocket.CLOSED) {
-        ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
+        ws = new WebSocket("ws://localhost:8080/");
+        // wss://cal-badminton.herokuapp.com/
         if (ws.readyState !== WebSocket.OPEN) {
           console.log("WS - failed reconnect");
           wsReconnect();
@@ -93,6 +95,16 @@ function App() {
           id: msg.id
         });
         ws.send(pingMsgResp);
+      } else if (msg.type === "courts") {
+        //TODO:
+        if (!Array.isArray(msg.status)) {
+          console.log("WS ERROR: court info not array");
+          setCourtStatus([]);
+        } else {
+          console.log("courtstatus", msg.status);
+          const newCourtStatus = msg.status;
+          setCourtStatus(newCourtStatus);
+        };
       }
     });
   };
@@ -119,6 +131,15 @@ function App() {
       );
     }
     setUser(JSON.parse(Cookies.get("user")));
+    if (!Cookies.get("numCourts")) {
+      Cookies.set("numCourts", 0, { expires: 2 });
+    }
+    setNumCourts(JSON.parse(Cookies.get("numCourts")));
+    if (!Cookies.get("courtStatus")) {
+      Cookies.set("courtStatus", [], { expires: 2 });
+    }
+    console.log("cookie", Cookies.get("courtStatus"));
+    setCourtStatus(JSON.parse(Cookies.get("courtStatus")));
     attachWSHandlers(ws);
 
     if ('Notification' in window) { 
@@ -132,7 +153,7 @@ function App() {
         return false; 
       }
     };
-  }, []);
+  }, [courtStatus, numCourts, user]);
 
   /* TODO Notifications:
         - If device doesnt support notifications (prop: notSupported)
@@ -146,12 +167,33 @@ function App() {
     setUser(newUser);
   };
 
+  const updateNumCourts = newNum => {
+    
+    let newStatus = [];
+    for (let i = 0; i < newNum; i++) {
+      newStatus.push(false);
+    }
+    setCourtStatus(newStatus);
+    Cookies.set("courtStatus", courtStatus, { expires: 2 });
+
+    Cookies.set("numCourts", newNum, { expires: 2 });
+    setNumCourts(newNum);
+    
+  }
+
+
   return (
     <div>
       <Router>
         <Switch>
           <Route path="/calbadofficer">
-            <AdminView user={user} users={users} ws={ws} />
+            <AdminView 
+              user={user} 
+              users={users} 
+              ws={ws} 
+              courtStatus={courtStatus} 
+              courtUpdateFunction={updateNumCourts}
+            />
           </Route>
           <Route path="/">
             <PlayerView
@@ -159,6 +201,7 @@ function App() {
               users={users}
               userUpdateFunction={updateUser}
               wsSend={wsSend}
+              courtStatus={courtStatus}
             />
           </Route>
         </Switch>

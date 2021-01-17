@@ -4,6 +4,7 @@ import { Add, Remove } from "@material-ui/icons";
 
 import PlayerList from "./PlayerList";
 import PlayerInfo from "./PlayerInfo";
+import CourtList from "./CourtList";
 
 const DEFAULT_USER = { uid: -1, name: undefined, uid2: -1, name2: "No partner name provided" };
 
@@ -52,6 +53,7 @@ const PlayerView = props => {
           </Button>
         </Box>
       </Box>
+      <CourtList courts={props.courtStatus} />
     </Container>
   );
 };
