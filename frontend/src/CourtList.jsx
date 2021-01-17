@@ -38,9 +38,11 @@ const CourtList = props => {
                 {props.admin && (
 
                     <button 
-                    onClick={ () => {
-                        props.courts[i] = !props.courts[i]
-                    }}
+                    // set onClick to change isFree to false and assign players
+                    // then send update using 
+                    // onClick={ () => {
+                    //     props.courts[i].isFree = !props.courts[i]
+                    // }}
                     >
                         {u ? "Mark occupied" : "Mark free"}
                     </button>

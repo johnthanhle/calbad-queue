@@ -101,8 +101,8 @@ function App() {
           console.log("WS ERROR: court info not array");
           setCourtStatus([]);
         } else {
-          console.log("courtstatus", msg.status);
-          const newCourtStatus = msg.status;
+          console.log("courtstatus", msg.value);
+          const newCourtStatus = msg.value;
           setCourtStatus(newCourtStatus);
         };
       }
@@ -167,18 +167,10 @@ function App() {
     setUser(newUser);
   };
 
-  const updateNumCourts = newNum => {
-    
-    let newStatus = [];
-    for (let i = 0; i < newNum; i++) {
-      newStatus.push(false);
-    }
-    setCourtStatus(newStatus);
-    Cookies.set("courtStatus", courtStatus, { expires: 2 });
-
-    Cookies.set("numCourts", newNum, { expires: 2 });
-    setNumCourts(newNum);
-    
+  const updateCourts = newCourts => {
+    console.log("NEW COURTS: ", newCourts);
+    Cookies.set("courts", newCourts, { expires: 2 });
+    setCourtStatus(newCourts);
   }
 
 
@@ -192,7 +184,7 @@ function App() {
               users={users} 
               ws={ws} 
               courtStatus={courtStatus} 
-              courtUpdateFunction={updateNumCourts}
+              courteUpdateFunction = {updateCourts}
             />
           </Route>
           <Route path="/">

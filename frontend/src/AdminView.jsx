@@ -6,6 +6,8 @@ import CourtInfo from "./CourtInfo";
 
 const AdminView = props => {
 
+  const { courtStatus } = props;
+
   const notifyFunction = user => {
     const notifContent = {
       title: "It's your turn to play!",
@@ -31,10 +33,7 @@ const AdminView = props => {
     props.ws.send(JSON.stringify(msg));
   }
 
-  const updateCourtNum = newNum => {
-    const msg = { type: "action", action: "courtNumberUpdate", value: newNum}
-    props.ws.send(JSON.stringify(msg));
-  }
+
 
   return (
     <Container maxWidth="sm">
@@ -46,9 +45,9 @@ const AdminView = props => {
         removeUserFunction={removeUser}
       />
       <CourtInfo 
-        courts={props.courtStatus}
+        courts={courtStatus}
         defaultNumber={0}
-        updateBackend={updateCourtNum}
+        updateBackend={updateCourtStatus}
         updateCookie={props.courtUpdateFunction}
       />
       <CourtList 

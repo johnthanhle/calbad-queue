@@ -6,7 +6,6 @@ const backend = () => {
 
   let queue = [];
   let courts = [];
-  let numCourts = 0;
 
   const genRandID = () => {
   	return Math.floor(Math.random() * 1000000);
@@ -39,9 +38,9 @@ const backend = () => {
     const sendCourts = client => {
       let courtsCopy = [];
       courts.forEach(item => {
-        courtsCopy.push(item);
+        courtsCopy.push({ uid: item.uid, pair1: item.pair1, pair2: item.pair2, isFree: item.isFree});
       });
-      client.send(JSON.stringify({ type: "courts", status: courtsCopy, number: numCourts}));
+      client.send(JSON.stringify({ type: "courts", value: courtsCopy}));
     }
     
     const sendQueue = client => {
@@ -112,30 +111,31 @@ const backend = () => {
     		} else if (msg.action == "courtStatusUpdate") {
           courts = msg.value;
           wss.clients.forEach(sendCourts);
-        } else if (msg.action == "courtNumberUpdate") {
-          const newNum = msg.value;
-          if (newNum > numCourts) {
-            while (numCourts != newNum) {
-              let courtInfo = {uid: getRandId(), pair1: "", pair2: "", isFree: true};
-              courts.push(courtInfo);
-              numCourts += 1;
-            }
-          } else if (newNum < numCourts) {
-            var indicestoDelete = [];
-            for (var i = 0; i < courts.length; i++) {
-              if (courts[i].isFree) {
-                indicestoDelete.push(i);
-              }
-            }
-            var numNeeded = numCourts - newNum;
-            if (indicestoDelete < numNeeded) {
-              consol
-            }
-          }
-          console.log("courrts", courts);
-          console.log("cort", numCourts)
-          wss.clients.forEach(sendCourts);
-        }
+        } 
+        // else if (msg.action == "courtNumberUpdate") {
+        //   const newNum = msg.value;
+        //   if (newNum > numCourts) {
+        //     while (numCourts != newNum) {
+        //       let courtInfo = {uid: getRandId(), pair1: null, pair2: null, isFree: true};
+        //       courts.push(courtInfo);
+        //       numCourts += 1;
+        //     }
+        //   } else if (newNum < numCourts) {
+        //     var indicestoDelete = [];
+        //     for (var i = 0; i < courts.length; i++) {
+        //       if (courts[i].isFree) {
+        //         indicestoDelete.push(i);
+        //       }
+        //     }
+        //     var numNeeded = numCourts - newNum;
+        //     if (indicestoDelete < numNeeded) {
+        //       consol
+        //     }
+        //   }
+        //   console.log("courrts", courts);
+        //   console.log("cort", numCourts)
+        //   wss.clients.forEach(sendCourts);
+        // }
     	}
     else if (msg.type == "pingres") {
     	console.log(`   Ping res:  ${msg.id}`);
