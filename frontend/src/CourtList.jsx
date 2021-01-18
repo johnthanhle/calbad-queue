@@ -5,6 +5,8 @@ import {
   Typography,
   Button, 
 } from "@material-ui/core";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 import courtImage from "./court.png";
 
 const CourtList = props => {
@@ -48,9 +50,15 @@ const CourtList = props => {
                 />
                 <ListItemText
                 disableTypography
-                    primary={<Typography variant="body">
-                    Status: {!court[i].isFree ? "IN USE" : "OPEN"}
+                    primary={
+                    <div style={{ display: "flex" }}>
+                    <Typography variant="body" style={{ marginRight: 3}}>
+                    Status: 
                     </Typography>
+                    <Typography variant="body">
+                      {!court[i].isFree ? <CancelIcon/> : <CheckCircleIcon /> }
+                    </Typography>
+                    </div>
                     } 
                 />
                 {props.admin && (
