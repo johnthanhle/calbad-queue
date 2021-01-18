@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   ListItemText,
@@ -8,7 +8,7 @@ import {
 import courtImage from "./court.png";
 
 const CourtList = props => {
-  const [court, editCourt] = useState([]);
+  const [court, editCourt] = useState(props.courtStatus);
 
   const save = newCourt => {
     props.updateBackend(newCourt);

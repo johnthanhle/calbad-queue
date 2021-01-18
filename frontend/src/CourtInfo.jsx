@@ -43,6 +43,7 @@ const CourtInfo = props => {
           }
         }
         console.log("to pop", canFreeIndex);
+        console.log("old", courtStatus);
         if (canFree >= numNeeded) {
           for (let i = 0; i < numNeeded; i++) {
             const popInd = canFreeIndex.length - 1 - i;
@@ -59,16 +60,21 @@ const CourtInfo = props => {
 
       }
     }
-  }, [isEdit, props]);
+  }, [isEdit]);
+
+  useEffect(() => {
+    setCourtStatus(props.courts);
+  }, [props.courts]);
 
   const genRandID = () => {
     return Math.floor(Math.random() * 1000);
   };
 
   const handleTextboxUpdate = event => {
+    console.log("help", "help1");
     var userInput = Number(event.target.value);
     if (Number.isNaN(userInput)) {
-      setNumCourts(props.defaultNumber);
+      setNumCourts(courtStatus.length);
     } else {
       setNumCourts(userInput);
     }
