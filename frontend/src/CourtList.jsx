@@ -56,7 +56,7 @@ const CourtList = props => {
                     Status: 
                     </Typography>
                     <Typography variant="body">
-                      {!court[i].isFree ? <CancelIcon/> : <CheckCircleIcon /> }
+                      {!court[i].isFree ? <CancelIcon style={{ color: "red" }}/> : <CheckCircleIcon style={{ color: "green" }} /> }
                     </Typography>
                     </div>
                     } 
