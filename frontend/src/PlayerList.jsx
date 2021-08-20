@@ -28,7 +28,6 @@ const PlayerList = props => {
           </Box>
         </div>
         )}
-
         {props.users &&
           Array.isArray(props.users) &&
           props.users.length > 0 &&

@@ -10,7 +10,6 @@ const CourtInfo = props => {
   useEffect(() => {
     var targetNumber = numCourts;
     var numNeeded;
-    var newCourts;
     if (!Number.isInteger(targetNumber)) {
       console.log('Invalid input');
       setNumCourts(courtStatus.length);

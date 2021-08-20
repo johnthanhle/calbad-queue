@@ -27,8 +27,7 @@ const CourtList = props => {
       court.length > 0
     )) {
       return (
-    <div class="body" align="center">
-    <h2><center><b>No reserved courts!</b></center></h2>
+    <div>
     </div>)
     }
   return (

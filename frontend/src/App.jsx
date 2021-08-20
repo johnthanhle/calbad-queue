@@ -169,7 +169,7 @@ function App() {
     <div>
       <Router>
         <Switch>
-          <Route path="/calbadofficer">
+          <Route path="/">
             <AdminView 
               user={user} 
               users={users} 
@@ -178,7 +178,7 @@ function App() {
               courtUpdateFunction = {updateCourts}
             />
           </Route>
-          <Route path="/">
+          <Route path="/calbadofficer">
             <PlayerView
               user={user}
               users={users}
