@@ -39,7 +39,7 @@ const backend = () => {
         const sendQueue = client => {
             let queueCopy = [];
             queue.forEach(item => {
-                queueCopy.push({ uid: item.uid, name: item.name, partnerName: item.partnerName, event: item.event });
+                queueCopy.push({ uid: item.uid, name: item.name, partnerName: item.partnerName, event: item.event, challenge: item.challenge });
             });
             client.send(JSON.stringify({ type: "queue", value: queueCopy }));
         };
@@ -49,7 +49,7 @@ const backend = () => {
             courts.forEach(court => {
                 courtCopy = []
                 court.forEach(item => {
-                    courtCopy.push({ uid: item.uid, name: item.name, partnerName: item.partnerName, event: item.event });
+                    courtCopy.push({ uid: item.uid, name: item.name, partnerName: item.partnerName, event: item.event, challenge: item.challenge });
                 })
                 courtsCopy.push(courtCopy);
             });

@@ -80,9 +80,14 @@ export default function PlayerList(props) {
             headerName: 'Event',
             width: 130
         },
+        {
+            field: 'challenge',
+            headerName: 'Challenge?',
+            width: 130
+        },
     ];
 
-    let rows = props.users.map(user => ({ id: user.uid, name: user.name, partnerName: user.partnerName, event: user.event }));
+    let rows = props.users.map(user => ({ id: user.uid, name: user.name, partnerName: user.partnerName, event: user.event, challenge: user.challenge }));
 
     return (
         <Box display="flex" justifyContent="center">

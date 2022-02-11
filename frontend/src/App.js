@@ -8,7 +8,7 @@ import './App.css';
 
 
 let ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
-const DEFAULT_USER = { uid: -1, name: undefined, partnerName: undefined, event: undefined };
+const DEFAULT_USER = { uid: -1, name: undefined, partnerName: undefined, event: undefined, challenge: undefined };
 const WS_RETRY_TIME = 5000;
 
 function App() {
