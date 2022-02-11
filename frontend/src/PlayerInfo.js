@@ -11,7 +11,7 @@ const PlayerInfo = props => {
     const [isEdit, setIsEdit] = useState(false);
     const [userName, setUserName] = useState(props.user.name);
     const [partnerName, setPartnerName] = useState(props.user.partnerName)
-    const [badmintonEvent, setBadmintonEvent] = useState('Doubles');
+    const [badmintonEvent, setBadmintonEvent] = useState(props.user.event || "Doubles");
 
     const handleSelectChange = (event) => {
         setBadmintonEvent(event.target.value);
@@ -74,7 +74,7 @@ const PlayerInfo = props => {
                         <InputLabel>Event</InputLabel>
                         <Select
                             label="Event"
-                            value={"Doubles"}
+                            value={badmintonEvent}
                             displayEmpty
                             onChange={handleSelectChange}
                         >
