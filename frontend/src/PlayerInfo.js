@@ -12,9 +12,14 @@ const PlayerInfo = props => {
     const [userName, setUserName] = useState(props.user.name);
     const [partnerName, setPartnerName] = useState(props.user.partnerName)
     const [badmintonEvent, setBadmintonEvent] = useState(props.user.event || "Doubles");
+    const [challenge, setChallenge] = useState(props.user.challenge || "No");
 
     const handleSelectChange = (event) => {
         setBadmintonEvent(event.target.value);
+    };
+
+    const handleChallengeChange = (event) => {
+        setChallenge(event.target.value);
     };
 
     const handleTextBoxUpdate = event => {
@@ -38,6 +43,7 @@ const PlayerInfo = props => {
             newUser.partnerName = partnerName;
         }
         newUser.event = badmintonEvent;
+        newUser.challenge = challenge;
         props.updateUser(newUser);
         setIsEdit(false);
     };
@@ -46,7 +52,7 @@ const PlayerInfo = props => {
         <Box m={0.4} pt={0.4}>
             {!isEdit && (
                 <h4 onClick={() => setIsEdit(true)}>
-                    Name: {props.user.name} <br></br> Partner: {props.user.partnerName === props.defaultUser.partnerName ? "" : props.user.partnerName} <br></br> Event: {props.user.event} <Edit fontSize="small" />
+                    Name: {props.user.name} <br></br> Partner: {props.user.partnerName === props.defaultUser.partnerName ? "" : props.user.partnerName} <br></br> Event: {props.user.event} <br></br> Challenge?: {props.user.challenge} <Edit fontSize="small" />
                 </h4>
             )}
             {isEdit && (
@@ -80,6 +86,22 @@ const PlayerInfo = props => {
                         >
                             <MenuItem value={'Singles'}>Singles</MenuItem>
                             <MenuItem value={'Doubles'}>Doubles</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl
+                        variant="outlined"
+                        size="small"
+                        required={true}
+                    >
+                        <InputLabel>Challenge?</InputLabel>
+                        <Select
+                            label="Challenge?"
+                            value={challenge}
+                            displayEmpty
+                            onChange={handleChallengeChange}
+                        >
+                            <MenuItem value={'No'}>No</MenuItem>
+                            <MenuItem value={'Yes'}>Yes</MenuItem>
                         </Select>
                     </FormControl>
                     <CheckBox onClick={save} />
