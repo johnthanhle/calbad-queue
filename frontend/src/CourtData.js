@@ -77,13 +77,13 @@ function CustomNoRowsOverlay() {
 export default function CourtData(props) {
   const [selected, setSelected] = useState([]);
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70, editable: props.admin, },
-    { field: 'name', headerName: 'Name', width: 130, editable: props.admin, },
-    { field: 'partnerName', headerName: 'Partner Name', width: 130, editable: props.admin, },
+    { field: 'id', headerName: 'ID', width: 50, editable: props.admin, },
+    { field: 'name', headerName: 'Name', width: 100, editable: props.admin, },
+    { field: 'partnerName', headerName: 'Partner', width: 100, editable: props.admin, },
     {
       field: 'event',
       headerName: 'Event',
-      width: 130,
+      width: 100,
       editable: props.admin,
     },
   ];

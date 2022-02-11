@@ -72,18 +72,18 @@ function CustomNoRowsOverlay() {
 
 export default function PlayerList(props) {
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70, hidden: true },
-        { field: 'name', headerName: 'Name', width: 130 },
-        { field: 'partnerName', headerName: 'Partner Name', width: 130 },
+        { field: 'id', headerName: 'ID', width: 50, hidden: true },
+        { field: 'name', headerName: 'Name', width: 100 },
+        { field: 'partnerName', headerName: 'Partner', width: 100 },
         {
             field: 'event',
             headerName: 'Event',
-            width: 130
+            width: 100
         },
         {
             field: 'challenge',
             headerName: 'Challenge?',
-            width: 130
+            width: 100
         },
     ];
 
