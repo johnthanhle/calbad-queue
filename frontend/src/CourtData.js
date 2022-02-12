@@ -1,29 +1,29 @@
-import * as React from 'react';
-import { GridOverlay, DataGrid } from '@mui/x-data-grid';
+import * as React from "react";
+import { GridOverlay, DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Container } from "@material-ui/core";
 import CourtTabs from "./CourtTabs";
-import logo from './logo.png';
+import logo from "./logo.png";
 import AdminTabs from "./AdminTabs";
-import { useState } from 'react';
-import { styled } from '@mui/material/styles';
+import { useState } from "react";
+import { styled } from "@mui/material/styles";
 
 const StyledGridOverlay = styled(GridOverlay)(({ theme }) => ({
-  flexDirection: 'column',
-  '& .ant-empty-img-1': {
-    fill: theme.palette.mode === 'light' ? '#aeb8c2' : '#262626',
+  flexDirection: "column",
+  "& .ant-empty-img-1": {
+    fill: theme.palette.mode === "light" ? "#aeb8c2" : "#262626",
   },
-  '& .ant-empty-img-2': {
-    fill: theme.palette.mode === 'light' ? '#f5f5f7' : '#595959',
+  "& .ant-empty-img-2": {
+    fill: theme.palette.mode === "light" ? "#f5f5f7" : "#595959",
   },
-  '& .ant-empty-img-3': {
-    fill: theme.palette.mode === 'light' ? '#dce0e6' : '#434343',
+  "& .ant-empty-img-3": {
+    fill: theme.palette.mode === "light" ? "#dce0e6" : "#434343",
   },
-  '& .ant-empty-img-4': {
-    fill: theme.palette.mode === 'light' ? '#fff' : '#1c1c1c',
+  "& .ant-empty-img-4": {
+    fill: theme.palette.mode === "light" ? "#fff" : "#1c1c1c",
   },
-  '& .ant-empty-img-5': {
-    fillOpacity: theme.palette.mode === 'light' ? '0.8' : '0.08',
-    fill: theme.palette.mode === 'light' ? '#f5f5f5' : '#fff',
+  "& .ant-empty-img-5": {
+    fillOpacity: theme.palette.mode === "light" ? "0.8" : "0.08",
+    fill: theme.palette.mode === "light" ? "#f5f5f5" : "#fff",
   },
 }));
 
@@ -77,42 +77,66 @@ function CustomNoRowsOverlay() {
 export default function CourtData(props) {
   const [selected, setSelected] = useState([]);
   const columns = [
-    { field: 'id', headerName: 'ID', width: 50, editable: props.admin, },
-    { field: 'name', headerName: 'Name', width: 100, editable: props.admin, },
-    { field: 'partnerName', headerName: 'Partner', width: 100, editable: props.admin, },
+    { field: "id", headerName: "ID", width: 50, editable: props.admin },
+    { field: "name", headerName: "Name", width: 100, editable: props.admin },
     {
-      field: 'event',
-      headerName: 'Event',
+      field: "partnerName",
+      headerName: "Partner",
+      width: 100,
+      editable: props.admin,
+    },
+    {
+      field: "event",
+      headerName: "Event",
       width: 100,
       editable: props.admin,
     },
   ];
-  const courtNumber = { 'court1': 0, 'court2': 1, 'court3': 2, 'court4': 3, 'court5': 4, 'court6': 5 };
+  const courtNumber = {
+    court1: 0,
+    court2: 1,
+    court3: 2,
+    court4: 3,
+    court5: 4,
+    court6: 5,
+  };
   const courtId = courtNumber[props.courtPath];
 
   const handleDeletion = () => {
-    const msg = { type: "action", action: "court-remove", value: selected, court: courtId };
+    const msg = {
+      type: "action",
+      action: "court-remove",
+      value: selected,
+      court: courtId,
+    };
     props.wsSend(JSON.stringify(msg));
     setSelected([]);
   };
 
   let rows;
   if (!Array.isArray(props.courts) || !props.courts.length) {
-    rows = []
+    rows = [];
   } else {
     console.log(props.courts);
-    rows = props.courts[courtId].map(user => ({ id: user.uid, name: user.name, partnerName: user.partnerName, event: user.event }));
+    rows = props.courts[courtId].map((user) => ({
+      id: user.uid,
+      name: user.name,
+      partnerName: user.partnerName,
+      event: user.event,
+    }));
   }
 
   return (
     <Container maxWidth="sm">
-      <h1><center>Open Gym Queue</center></h1>
+      <h1>
+        <center>Open Gym Queue</center>
+      </h1>
       <Box display="flex" justifyContent="center">
         <img src={logo} alt="Queue is empty" />
       </Box>
       {props.admin ? <AdminTabs></AdminTabs> : <CourtTabs></CourtTabs>}
       <Box display="flex" justifyContent="center">
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             components={{
               NoRowsOverlay: CustomNoRowsOverlay,
@@ -124,24 +148,24 @@ export default function CourtData(props) {
             pageSize={4}
             rowsPerPageOptions={[4]}
             checkboxSelection
-            onRowEditStop={event => console.log(event)}
-            onSelectionModelChange={select => setSelected(select)}
+            onRowEditStop={(event) => console.log(event)}
+            onSelectionModelChange={(select) => setSelected(select)}
           />
         </div>
       </Box>
-      {props.admin ? <center>
-        <Box p={1}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleDeletion}
-          >
-            Delete selected players
-          </Button>
-        </Box>
-      </center>
-        : null
-      }
+      {props.admin ? (
+        <center>
+          <Box p={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleDeletion}
+            >
+              Delete selected players
+            </Button>
+          </Box>
+        </center>
+      ) : null}
     </Container>
   );
-};
+}
