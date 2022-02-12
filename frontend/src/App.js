@@ -4,11 +4,16 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CourtView from "./CourtView";
 import CourtData from "./CourtData";
 import AdminView from "./AdminView";
-import './App.css';
-
+import "./App.css";
 
 let ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
-const DEFAULT_USER = { uid: -1, name: undefined, partnerName: undefined, event: undefined, challenge: undefined };
+const DEFAULT_USER = {
+  uid: -1,
+  name: undefined,
+  partnerName: undefined,
+  event: undefined,
+  challenge: undefined,
+};
 const WS_RETRY_TIME = 5000;
 
 function App() {
@@ -48,7 +53,7 @@ function App() {
     }, WS_RETRY_TIME);
   };
 
-  const attachWSHandlers = client => {
+  const attachWSHandlers = (client) => {
     client.addEventListener("open", function (event) {
       console.log("WS Open");
       setWsConnected(true);
@@ -68,7 +73,7 @@ function App() {
         } else {
           const newUsers = msg.value;
           setUsers(newUsers);
-        };
+        }
       }
       if (msg.type === "courts") {
         if (!Array.isArray(msg.value)) {
@@ -78,7 +83,7 @@ function App() {
         } else {
           const newCourts = msg.value;
           setCourts(newCourts);
-        };
+        }
       }
     });
   };
@@ -89,7 +94,7 @@ function App() {
       ws.send(
         JSON.stringify({
           type: "update-id",
-          uid: user.uid
+          uid: user.uid,
         })
       );
     }
@@ -98,20 +103,17 @@ function App() {
   useEffect(() => {
     if (!Cookies.get("user")) {
       const user_data = { uid: generateUID(), name: DEFAULT_USER.name };
-      Cookies.set(
-        "user", JSON.stringify(user_data),
-        { expires: 7 }
-      );
+      Cookies.set("user", JSON.stringify(user_data), { expires: 7 });
     }
     setUser(JSON.parse(Cookies.get("user")));
     attachWSHandlers(ws);
   }, []);
 
-  const wsSend = msg => {
+  const wsSend = (msg) => {
     ws.send(msg);
   };
 
-  const updateUser = newUser => {
+  const updateUser = (newUser) => {
     console.log("NEW USER: ", newUser);
     Cookies.set("user", JSON.stringify(newUser), { expires: 7 });
     setUser(newUser);
@@ -121,11 +123,48 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<CourtView user={user} users={users} defaultUser={DEFAULT_USER} updateUser={updateUser} wsSend={wsSend} ></CourtView>}>
-          </Route>
-          {tabs.map(tab => <Route path={tab} element={<CourtData admin={false} courts={courts} courtPath={tab} wsSend={wsSend}></CourtData>} ></Route>)}
-          <Route path="/admin" element={<AdminView users={users} wsSend={wsSend}></AdminView>}></Route>
-          {tabs.map(tab => <Route path={tab + "-admin"} element={<CourtData admin={true} courts={courts} courtPath={tab} wsSend={wsSend}></CourtData>} ></Route>)}
+          <Route
+            path="/"
+            element={
+              <CourtView
+                user={user}
+                users={users}
+                defaultUser={DEFAULT_USER}
+                updateUser={updateUser}
+                wsSend={wsSend}
+              ></CourtView>
+            }
+          ></Route>
+          {tabs.map((tab) => (
+            <Route
+              path={tab}
+              element={
+                <CourtData
+                  admin={false}
+                  courts={courts}
+                  courtPath={tab}
+                  wsSend={wsSend}
+                ></CourtData>
+              }
+            ></Route>
+          ))}
+          <Route
+            path="/admin"
+            element={<AdminView users={users} wsSend={wsSend}></AdminView>}
+          ></Route>
+          {tabs.map((tab) => (
+            <Route
+              path={tab + "-admin"}
+              element={
+                <CourtData
+                  admin={true}
+                  courts={courts}
+                  courtPath={tab}
+                  wsSend={wsSend}
+                ></CourtData>
+              }
+            ></Route>
+          ))}
         </Routes>
       </Router>
     </div>
