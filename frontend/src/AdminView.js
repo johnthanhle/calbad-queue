@@ -82,7 +82,7 @@ const AdminView = (props) => {
   const [court, setCourt] = React.useState("");
 
   const columns = [
-    { field: "id", headerName: "ID", width: 50, hidden: true },
+    { field: "id", headerName: "ID", width: 60, hidden: true },
     { field: "name", headerName: "Name", width: 100 },
     { field: "partnerName", headerName: "Partner", width: 100 },
     {
