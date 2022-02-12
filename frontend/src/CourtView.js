@@ -33,11 +33,13 @@ const CourtView = (props) => {
       <Box sx={{ p: 2, border: "0.25px dashed grey" }}>
         <h4>
           <strong>Instructions:</strong> <br></br> Please enter all your
-          information below by clicking the pencil icon. Once you have entered
-          your information, click the black checkbox to confirm. You will not be
-          able to join the queue until this has been done. If there is currently
-          a challenge court and you want to queue for it, please indicate "Yes"
-          in the challenge select box. Lastly, we are sorry if we incorrectly
+          information below by clicking the pencil icon. Indicate your name,
+          your partner name if you have one (if you don't we will try to find
+          you one), and the event you are playing. If there is currently a
+          challenge court and you want to queue for it, please indicate "Yes" in
+          the challenge select box. Once you have entered your information,
+          click the black checkbox to confirm. You will not be able to join the
+          queue until this has been done. Lastly, we are sorry if we incorrectly
           pronounce your names.
         </h4>
       </Box>

@@ -131,7 +131,11 @@ export default function CourtData(props) {
       <h1>
         <center>Open Gym Queue</center>
       </h1>
-      <Box display="flex" justifyContent="center">
+      <Box
+        display="flex"
+        justifyContent="center"
+        sx={{ p: 2, border: "1px grey" }}
+      >
         <img src={logo} alt="Queue is empty" />
       </Box>
       {props.admin ? <AdminTabs></AdminTabs> : <CourtTabs></CourtTabs>}
