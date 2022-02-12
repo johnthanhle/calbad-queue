@@ -155,10 +155,10 @@ const AdminView = (props) => {
           <strong>Instructions:</strong> <br></br> Administrators can select
           each person or pair and add them to a court. Please do not spam the
           button or you may unknowningly delete someone. On a mobile phone, the
-          buttons may require you to hit them twice. On each court page you will
-          be able to remove players from the court. Please message the officer
-          chat if you have any issues. More features can be added later if I
-          have time, just let me know what you want.
+          buttons may require you to hit them twice. On each court page, you
+          will be able to remove players from the court. Please message the
+          officer chat if you have any issues. More features can be added later
+          if I have time, just let me know what you want.
         </h4>
       </Box>
       <AdminTabs></AdminTabs>

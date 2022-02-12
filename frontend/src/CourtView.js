@@ -22,8 +22,24 @@ const CourtView = (props) => {
       <h1>
         <center>Open Gym Queue</center>
       </h1>
-      <Box display="flex" justifyContent="center" bottom={10}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        bottom={10}
+        sx={{ p: 2, border: "1px grey" }}
+      >
         <img src={logo} alt="Queue is empty" />
+      </Box>
+      <Box sx={{ p: 2, border: "0.25px dashed grey" }}>
+        <h4>
+          <strong>Instructions:</strong> <br></br> Please enter all your
+          information below by clicking the pencil icon. Once you have entered
+          your information, click the black checkbox to confirm. You will not be
+          able to join the queue until this has been done. If there is currently
+          a challenge court and you want to queue for it, please indicate "Yes"
+          in the challenge select box. Lastly, we are sorry if we incorrectly
+          pronounce your names.
+        </h4>
       </Box>
       {user && (
         <PlayerInfo
