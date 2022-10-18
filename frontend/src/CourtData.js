@@ -200,7 +200,11 @@ export default function CourtData(props) {
           updateUser={props.updateUser}
         ></PlayerInfo>
       )}
-      {props.admin ? <AdminTabs></AdminTabs> : <CourtTabs></CourtTabs>}
+      {props.admin ? (
+        <AdminTabs value={courtId}></AdminTabs>
+      ) : (
+        <CourtTabs value={courtId}></CourtTabs>
+      )}
       <Box display="flex" justifyContent="center">
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
