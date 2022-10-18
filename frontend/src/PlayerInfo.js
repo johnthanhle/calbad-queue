@@ -14,14 +14,9 @@ const PlayerInfo = (props) => {
   const [badmintonEvent, setBadmintonEvent] = useState(
     props.user.event || "Doubles"
   );
-  const [challenge, setChallenge] = useState(props.user.challenge || "No");
 
   const handleSelectChange = (event) => {
     setBadmintonEvent(event.target.value);
-  };
-
-  const handleChallengeChange = (event) => {
-    setChallenge(event.target.value);
   };
 
   const handleTextBoxUpdate = (event) => {
@@ -45,7 +40,6 @@ const PlayerInfo = (props) => {
       newUser.partnerName = partnerName;
     }
     newUser.event = badmintonEvent;
-    newUser.challenge = challenge;
     props.updateUser(newUser);
     setIsEdit(false);
   };
@@ -58,8 +52,7 @@ const PlayerInfo = (props) => {
           {props.user.partnerName === props.defaultUser.partnerName
             ? ""
             : props.user.partnerName}{" "}
-          <br></br> Event: {props.user.event} <br></br> Challenge?:{" "}
-          {props.user.challenge} <Edit fontSize="small" />
+          <br></br> Event: {props.user.event} <Edit fontSize="small" />
         </h4>
       )}
       {isEdit && (
@@ -93,18 +86,6 @@ const PlayerInfo = (props) => {
             >
               <MenuItem value={"Singles"}>Singles</MenuItem>
               <MenuItem value={"Doubles"}>Doubles</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl variant="outlined" size="small" required={true}>
-            <InputLabel>Challenge?</InputLabel>
-            <Select
-              label="Challenge?"
-              value={challenge}
-              displayEmpty
-              onChange={handleChallengeChange}
-            >
-              <MenuItem value={"No"}>No</MenuItem>
-              <MenuItem value={"Yes"}>Yes</MenuItem>
             </Select>
           </FormControl>
           <CheckBox onClick={save} />

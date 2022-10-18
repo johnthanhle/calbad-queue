@@ -3,7 +3,6 @@ const backend = () => {
   const wss = new WebSocket.Server({ port: process.env.PORT || 5000 });
   const WEBSOCKET_PING_TIME = 40000;
 
-  let queue = [];
   let courts = [[], [], [], [], [], []];
 
   const generateUID = () => {
@@ -38,20 +37,6 @@ const backend = () => {
       `Opened Connection - ${ws.id} (${wss.clients.size} total connections)`
     );
 
-    const sendQueue = (client) => {
-      let queueCopy = [];
-      queue.forEach((item) => {
-        queueCopy.push({
-          uid: item.uid,
-          name: item.name,
-          partnerName: item.partnerName,
-          event: item.event,
-          challenge: item.challenge,
-        });
-      });
-      client.send(JSON.stringify({ type: "queue", value: queueCopy }));
-    };
-
     const sendCourts = (client) => {
       let courtsCopy = [];
       courts.forEach((court) => {
@@ -62,7 +47,6 @@ const backend = () => {
             name: item.name,
             partnerName: item.partnerName,
             event: item.event,
-            challenge: item.challenge,
           });
         });
         courtsCopy.push(courtCopy);
@@ -70,7 +54,7 @@ const backend = () => {
       client.send(JSON.stringify({ type: "courts", value: courtsCopy }));
     };
 
-    ws.on("close", (event) => {
+    ws.on("close", () => {
       console.log(
         `Closed Connection - ${ws.id} (${wss.clients.size} total connections)`
       );
@@ -78,59 +62,56 @@ const backend = () => {
 
     ws.on("message", (msg) => {
       msg = JSON.parse(msg);
-      if (msg.action === "add-queue") {
+      if (msg.action === "court-add") {
         const user = msg.value;
-        if (user.name && !queue.some((u) => u.uid == user.uid)) {
-          user.ws = ws;
-          queue.push(user);
-          wss.clients.forEach(sendQueue);
+        const index = msg.court;
+        let queued = false;
+        for (var i = 0; i < courts.length; i++) {
+          if (courts[i].some((u) => u.uid == user.uid)) {
+            queued = true;
+          }
         }
-      } else if (msg.action === "remove-queue") {
+        if (user.name && !queued) {
+          user.ws = ws;
+          courts[index].push(user);
+          wss.clients.forEach(sendCourts);
+        }
+      } else if (msg.action === "court-remove") {
         const user = msg.value;
-        if (queue.some((u) => u.uid == user.uid)) {
-          for (var i = 0; i < queue.length; i++) {
-            if (queue[i].uid == user.uid) {
-              queue.splice(i, 1);
+        const index = msg.court;
+        if (courts[index].some((u) => u.uid == user.uid)) {
+          for (var i = 0; i < courts[index].length; i++) {
+            if (courts[index][i].uid == user.uid) {
+              courts[index].splice(i, 1);
             }
           }
-          wss.clients.forEach(sendQueue);
+          wss.clients.forEach(sendCourts);
         }
       } else if (msg.action === "remove-selected") {
         const users = msg.value;
-        queue = queue.filter((user) => !users.includes(user.uid));
-        wss.clients.forEach(sendQueue);
-      } else if (msg.action === "court-add") {
         const index = msg.court;
-        const users = msg.value;
-        courts[index] = queue.filter((user) => users.includes(user.uid));
-        queue = queue.filter((user) => !users.includes(user.uid));
-        wss.clients.forEach(sendQueue);
-        wss.clients.forEach(sendCourts);
-      } else if (msg.action === "court-remove") {
-        const index = msg.court;
-        const users = msg.value;
-        courts[index] = queue.filter((user) => !users.includes(user.uid));
+        courts[index] = courts[index].filter(
+          (user) => !users.includes(user.uid)
+        );
         wss.clients.forEach(sendCourts);
       } else if (msg.type === "request") {
-        if (msg.value === "queue") {
-          sendQueue(ws);
-        }
         if (msg.value === "courts") {
           sendCourts(ws);
         }
       } else if (msg.type === "update-id") {
         let found = false;
-        for (var i = 0; i < queue.length; i++) {
-          if (queue[i].uid === msg.uid) {
-            found = true;
-            queue[i].ws = ws;
+        for (var i = 0; i < courts.length; i++) {
+          for (var j = 0; j < courts[i].length; j++) {
+            if (courts[i][j].uid === msg.uid) {
+              found = true;
+              courts[i][j].ws = ws;
+            }
           }
         }
         console.log(`UpdateID ${msg.uid} (found: ${found})`);
       }
     });
 
-    sendQueue(ws);
     sendCourts(ws);
     clientKeepAlive(ws);
   });

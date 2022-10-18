@@ -15,10 +15,9 @@ function LinkTab(props) {
   );
 }
 
-const AdminTabs = (props) => {
+const AdminTabs = () => {
   return (
     <Tabs variant="scrollable" scrollButtons="auto">
-      <LinkTab label="Queue" href="/admin" />
       <LinkTab label="Court 1" href="/court1-admin" />
       <LinkTab label="Court 2" href="/court2-admin" />
       <LinkTab label="Court 3" href="/court3-admin" />
