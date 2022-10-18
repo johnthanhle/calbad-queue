@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import CourtView from "./CourtView";
 import CourtData from "./CourtData";
-import AdminView from "./AdminView";
 import "./App.css";
 
-let ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
+let ws = new WebSocket("ws://localhost:5000");
 const DEFAULT_USER = {
   uid: -1,
   name: undefined,
   partnerName: undefined,
   event: undefined,
-  challenge: undefined,
 };
 const WS_RETRY_TIME = 5000;
 
 function App() {
   const tabs = ["court1", "court2", "court3", "court4", "court5", "court6"];
   const [user, setUser] = useState();
-  const [users, setUsers] = useState([]);
   const [courts, setCourts] = useState([]);
   const [wsConnected, setWsConnected] = useState(false);
 
@@ -35,7 +31,7 @@ function App() {
     setTimeout(() => {
       console.log("WS - attempt reconnect");
       if (ws.readyState === WebSocket.CLOSED) {
-        ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
+        ws = new WebSocket("ws://localhost:5000");
         if (ws.readyState !== WebSocket.OPEN) {
           console.log("WS - failed reconnect");
           wsReconnect();
@@ -47,7 +43,6 @@ function App() {
         attachWSHandlers(ws);
         // Set manually here because handlers weren't connected in time to catch open
         setWsConnected(true);
-        ws.send(JSON.stringify({ type: "request", value: "queue" }));
         ws.send(JSON.stringify({ type: "request", value: "courts" }));
       }
     }, WS_RETRY_TIME);
@@ -66,15 +61,6 @@ function App() {
     client.addEventListener("message", function (event) {
       const msg = JSON.parse(event.data);
       console.log(event);
-      if (msg.type === "queue") {
-        if (!Array.isArray(msg.value)) {
-          console.log("WS ERROR: queue not array");
-          setUsers([]);
-        } else {
-          const newUsers = msg.value;
-          setUsers(newUsers);
-        }
-      }
       if (msg.type === "courts") {
         if (!Array.isArray(msg.value)) {
           console.log("WS ERROR: courts not array");
@@ -126,13 +112,16 @@ function App() {
           <Route
             path="/"
             element={
-              <CourtView
+              <CourtData
                 user={user}
-                users={users}
+                users={courts[0] === undefined ? [] : courts[0]}
+                admin={false}
+                courts={courts}
+                courtPath={"court1"}
                 defaultUser={DEFAULT_USER}
                 updateUser={updateUser}
                 wsSend={wsSend}
-              ></CourtView>
+              ></CourtData>
             }
           ></Route>
           {tabs.map((tab) => (
@@ -140,9 +129,12 @@ function App() {
               path={tab}
               element={
                 <CourtData
+                  user={user}
                   admin={false}
                   courts={courts}
                   courtPath={tab}
+                  defaultUser={DEFAULT_USER}
+                  updateUser={updateUser}
                   wsSend={wsSend}
                 ></CourtData>
               }
@@ -150,16 +142,29 @@ function App() {
           ))}
           <Route
             path="/admin"
-            element={<AdminView users={users} wsSend={wsSend}></AdminView>}
+            element={
+              <CourtData
+                user={user}
+                admin={true}
+                courts={courts}
+                courtPath={"court1"}
+                defaultUser={DEFAULT_USER}
+                updateUser={updateUser}
+                wsSend={wsSend}
+              ></CourtData>
+            }
           ></Route>
           {tabs.map((tab) => (
             <Route
               path={tab + "-admin"}
               element={
                 <CourtData
+                  user={user}
                   admin={true}
                   courts={courts}
                   courtPath={tab}
+                  defaultUser={DEFAULT_USER}
+                  updateUser={updateUser}
                   wsSend={wsSend}
                 ></CourtData>
               }

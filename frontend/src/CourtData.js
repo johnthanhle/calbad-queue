@@ -6,6 +6,8 @@ import logo from "./logo.png";
 import AdminTabs from "./AdminTabs";
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
+import PlayerInfo from "./PlayerInfo";
+import { Add, Remove } from "@material-ui/icons";
 
 const StyledGridOverlay = styled(GridOverlay)(({ theme }) => ({
   flexDirection: "column",
@@ -76,6 +78,7 @@ function CustomNoRowsOverlay() {
 
 export default function CourtData(props) {
   const [selected, setSelected] = useState([]);
+  const { user } = props;
   const columns = [
     { field: "id", headerName: "ID", width: 60, editable: props.admin },
     { field: "name", headerName: "Name", width: 100, editable: props.admin },
@@ -105,12 +108,32 @@ export default function CourtData(props) {
   const handleDeletion = () => {
     const msg = {
       type: "action",
-      action: "court-remove",
+      action: "remove-selected",
       value: selected,
       court: courtId,
     };
     props.wsSend(JSON.stringify(msg));
     setSelected([]);
+  };
+
+  const handleJoinCourt = () => {
+    const msg = {
+      type: "action",
+      action: "court-add",
+      value: user,
+      court: courtId,
+    };
+    props.wsSend(JSON.stringify(msg));
+  };
+
+  const handleLeaveCourt = () => {
+    const msg = {
+      type: "action",
+      action: "court-remove",
+      value: user,
+      court: courtId,
+    };
+    props.wsSend(JSON.stringify(msg));
   };
 
   let rows;
@@ -138,6 +161,45 @@ export default function CourtData(props) {
       >
         <img src={logo} alt="Queue is empty" />
       </Box>
+      {!props.admin && (
+        <Box sx={{ p: 2, border: "0.25px dashed grey" }}>
+          <h4>
+            <strong>Instructions:</strong> <br></br> Please enter all your
+            information below by clicking the pencil icon. Indicate your name,
+            your partner name if you have one, and the event you are playing.
+            You must click the black checkbox icon to save all your information.
+            If you are still able to edit any of the fields, it means that you
+            have not saved your information by clicking the checkbox yet.
+            Required fields must be filled otherwise your information cannot be
+            saved as well.
+            <br></br>
+            <br></br>
+            Click on the respective Court # below to join and leave the queue
+            for that court. You will only be able to sign up on one court at a
+            time. You must leave the current court to be able to sign up on
+            another court.
+          </h4>
+        </Box>
+      )}
+      {props.admin && (
+        <Box sx={{ p: 2, border: "0.25px dashed grey" }}>
+          <h4>
+            <strong>Instructions:</strong> <br></br> In general, you shouldn't
+            need to use this at all since the queue should run itself. Only use
+            this functionality to nuke the queue for special reasons. For
+            example, a good use case would be to delete an entry for someone
+            whose partner is signed up for a court when they are already on
+            another court's queue.
+          </h4>
+        </Box>
+      )}
+      {user && !props.admin && (
+        <PlayerInfo
+          user={props.user}
+          defaultUser={props.defaultUser}
+          updateUser={props.updateUser}
+        ></PlayerInfo>
+      )}
       {props.admin ? <AdminTabs></AdminTabs> : <CourtTabs></CourtTabs>}
       <Box display="flex" justifyContent="center">
         <div style={{ height: 400, width: "100%" }}>
@@ -149,8 +211,8 @@ export default function CourtData(props) {
             rows={rows}
             columns={columns}
             editable={props.admin}
-            pageSize={4}
-            rowsPerPageOptions={[4]}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
             checkboxSelection
             onRowEditStop={(event) => console.log(event)}
             onSelectionModelChange={(select) => setSelected(select)}
@@ -165,11 +227,34 @@ export default function CourtData(props) {
               variant="contained"
               onClick={handleDeletion}
             >
-              Delete selected players
+              Remove selected players from Court {courtId + 1}
             </Button>
           </Box>
         </center>
-      ) : null}
+      ) : (
+        <Box display="flex" flexDirection="row" justifyContent="center">
+          <Box p={1}>
+            <Button
+              onClick={handleJoinCourt}
+              color="primary"
+              variant="contained"
+              startIcon={<Add />}
+            >
+              Join Court {courtId + 1} Queue
+            </Button>
+          </Box>
+          <Box p={1}>
+            <Button
+              onClick={handleLeaveCourt}
+              color="secondary"
+              variant="contained"
+              startIcon={<Remove />}
+            >
+              Leave Court {courtId + 1} Queue
+            </Button>
+          </Box>
+        </Box>
+      )}
     </Container>
   );
 }
