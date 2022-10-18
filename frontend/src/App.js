@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CourtData from "./CourtData";
 import "./App.css";
 
-let ws = new WebSocket("ws://localhost:5000");
+let ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
 const DEFAULT_USER = {
   uid: -1,
   name: undefined,
@@ -31,7 +31,7 @@ function App() {
     setTimeout(() => {
       console.log("WS - attempt reconnect");
       if (ws.readyState === WebSocket.CLOSED) {
-        ws = new WebSocket("ws://localhost:5000");
+        ws = new WebSocket("wss://cal-badminton.herokuapp.com/");
         if (ws.readyState !== WebSocket.OPEN) {
           console.log("WS - failed reconnect");
           wsReconnect();
