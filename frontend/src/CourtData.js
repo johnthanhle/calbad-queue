@@ -78,7 +78,6 @@ function CustomNoRowsOverlay() {
 
 export default function CourtData(props) {
   const [selected, setSelected] = useState([]);
-  const { user } = props;
   const columns = [
     { field: "id", headerName: "ID", width: 60 },
     { field: "name", headerName: "Name", width: 150 },
@@ -114,21 +113,49 @@ export default function CourtData(props) {
     setSelected([]);
   };
 
+  const playerInACourt = () => {
+    var courts = props.courts;
+    for (var i = 0; i < courts.length; i++) {
+      for (var j = 0; j < courts[i].length; j++) {
+        var user = courts[i][j];
+        if (props.user.uid === user.uid) {
+          return { court: j + 1, found: true };
+        }
+      }
+    }
+  };
+
   const handleJoinCourt = () => {
+    var courtPlayerInfo = playerInACourt();
+    if (courtPlayerInfo && courtPlayerInfo.found) {
+      alert(
+        `You cannot join the court becuase you are already on Court ${courtPlayerInfo.court}! Please leave Court ${courtPlayerInfo.court} to rejoin or join a new court!`
+      );
+      return;
+    }
     const msg = {
       type: "action",
       action: "court-add",
-      value: user,
+      value: props.user,
       court: courtId,
     };
     props.wsSend(JSON.stringify(msg));
   };
 
   const handleLeaveCourt = () => {
+    var courtPlayerInfo = playerInACourt();
+    if (courtPlayerInfo === undefined) {
+      alert(
+        `You cannot leave Court ${
+          courtId + 1
+        } since you are not on the queue for it!`
+      );
+      return;
+    }
     const msg = {
       type: "action",
       action: "court-remove",
-      value: user,
+      value: props.user,
       court: courtId,
     };
     props.wsSend(JSON.stringify(msg));
@@ -162,16 +189,7 @@ export default function CourtData(props) {
       {!props.admin && (
         <Box sx={{ p: 2, border: "0.25px dashed grey" }}>
           <h4>
-            <strong>Instructions:</strong> <br></br> Please enter all your
-            information below by clicking the pencil icon. Indicate your name,
-            your partner name if you have one, and the event you are playing.
-            You must click the black checkbox icon to save all your information.
-            If you are still able to edit any of the fields, it means that you
-            have not saved your information by clicking the checkbox yet.
-            Required fields must be filled, otherwise your information cannot be
-            saved as well.
-            <br></br>
-            <br></br>
+            <strong>Instructions:</strong> <br></br>
             Click on the respective Court # below to join and leave the queue
             for that court. You will only be able to sign up on one court at a
             time. You must leave the current court to be able to sign up on
@@ -196,7 +214,7 @@ export default function CourtData(props) {
           </h4>
         </Box>
       )}
-      {user && !props.admin && (
+      {props.user && !props.admin && (
         <PlayerInfo
           user={props.user}
           defaultUser={props.defaultUser}
