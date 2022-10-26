@@ -79,17 +79,29 @@ function CustomNoRowsOverlay() {
 export default function CourtData(props) {
   const [selected, setSelected] = useState([]);
   const columns = [
-    { field: "id", headerName: "ID", width: 60 },
-    { field: "name", headerName: "Name", width: 150 },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 100,
+      sortable: false,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 150,
+      sortable: false,
+    },
     {
       field: "partnerName",
       headerName: "Partner",
       width: 150,
+      sortable: false,
     },
     {
       field: "event",
       headerName: "Event",
       width: 100,
+      sortable: false,
     },
   ];
   const courtNumber = {
@@ -231,23 +243,45 @@ export default function CourtData(props) {
       ) : (
         <CourtTabs value={courtId}></CourtTabs>
       )}
-      <Box display="flex" justifyContent="center">
-        <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            components={{
-              NoRowsOverlay: CustomNoRowsOverlay,
-            }}
-            editMode="row"
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10]}
-            checkboxSelection
-            onRowEditStop={(event) => console.log(event)}
-            onSelectionModelChange={(select) => setSelected(select)}
-          />
-        </div>
-      </Box>
+      {props.admin ? (
+        <Box display="flex" justifyContent="center">
+          <div style={{ height: 400, width: "100%" }}>
+            <DataGrid
+              components={{
+                NoRowsOverlay: CustomNoRowsOverlay,
+              }}
+              editMode="row"
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+              checkboxSelection
+              onRowEditStop={(event) => console.log(event)}
+              onSelectionModelChange={(select) => setSelected(select)}
+            />
+          </div>
+        </Box>
+      ) : (
+        <Box display="flex" justifyContent="center">
+          <div style={{ height: 400, width: "100%" }}>
+            <DataGrid
+              components={{
+                NoRowsOverlay: CustomNoRowsOverlay,
+              }}
+              editMode="row"
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+              onRowEditStop={(event) => console.log(event)}
+              onSelectionModelChange={(select) => setSelected(select)}
+              disableColumnFilter
+              disableColumnSelector
+            />
+          </div>
+        </Box>
+      )}
+
       {props.admin ? (
         <center>
           <Box p={1}>

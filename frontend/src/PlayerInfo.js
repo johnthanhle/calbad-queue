@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextField } from "@material-ui/core";
-import { Box } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -71,14 +71,14 @@ const PlayerInfo = (props) => {
   }, [badmintonEvent]);
 
   return (
-    <Box m={0.4} pt={0.4}>
-      <div>
+    <Grid container direction={"row"} spacing={1}>
+      <Grid item>
         <TextField
           value={userName === props.defaultUser.name ? "" : userName}
           onChange={handleTextBoxUpdate}
           required={true}
           label="Name"
-          variant="outlined"
+          variant="filled"
           size="small"
           onKeyPress={(e) => {
             if (e.key === "Enter") {
@@ -87,13 +87,15 @@ const PlayerInfo = (props) => {
           }}
           onBlur={() => handleSave()}
         />
+      </Grid>
+      <Grid item>
         <TextField
           value={
             setPartnerName === props.defaultUser.partnerName ? "" : partnerName
           }
           onChange={handlePartnerTextBoxUpdate}
           label="Partner Name"
-          variant="outlined"
+          variant="filled"
           size="small"
           onKeyPress={(e) => {
             if (e.key === "Enter") {
@@ -102,7 +104,9 @@ const PlayerInfo = (props) => {
           }}
           onBlur={() => handleSave()}
         />
-        <FormControl variant="outlined" size="small" required={true}>
+      </Grid>
+      <Grid item>
+        <FormControl variant="filled" size="small" required={true}>
           <InputLabel>Event</InputLabel>
           <Select
             label="Event"
@@ -114,8 +118,8 @@ const PlayerInfo = (props) => {
             <MenuItem value={"Doubles"}>Doubles</MenuItem>
           </Select>
         </FormControl>
-      </div>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 
