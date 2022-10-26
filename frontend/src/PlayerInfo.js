@@ -14,7 +14,11 @@ const PlayerInfo = (props) => {
   );
 
   const handleSelectChange = (event) => {
-    if (event.target.value === "Singles" && partnerName.trim().length > 0) {
+    if (
+      event.target.value === "Singles" &&
+      partnerName &&
+      partnerName.trim().length > 0
+    ) {
       alert("You cannot have a partner if you are playing singles!");
       return;
     }
@@ -32,14 +36,24 @@ const PlayerInfo = (props) => {
   const handleSave = () => {
     const newUser = {};
     Object.assign(newUser, props.user);
-    if (userName === undefined || userName.trim().length <= 0) {
-      newUser.name = prompt("Please enter your name below!");
+    if (
+      userName === undefined ||
+      userName === null ||
+      userName.trim().length <= 0
+    ) {
+      do {
+        newUser.name = prompt("Please enter your name below!");
+      } while (newUser.name === null || newUser.name.trim() === "");
       setUserName(newUser.name);
     } else {
       newUser.name = userName;
     }
     newUser.event = badmintonEvent;
-    if (newUser.event === "Singles" && partnerName.trim().length > 0) {
+    if (
+      badmintonEvent === "Singles" &&
+      partnerName &&
+      partnerName.trim().length > 0
+    ) {
       alert("You cannot have a partner if you are playing singles!");
       setPartnerName("");
       return;
