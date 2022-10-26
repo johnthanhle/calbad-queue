@@ -98,17 +98,23 @@ const backend = () => {
         if (msg.value === "courts") {
           sendCourts(ws);
         }
-      } else if (msg.type === "update-id") {
+      } else if (msg.type === "update-user") {
         let found = false;
+        var user = msg.value;
         for (var i = 0; i < courts.length; i++) {
           for (var j = 0; j < courts[i].length; j++) {
-            if (courts[i][j].uid === msg.uid) {
+            curr_user = courts[i][j];
+            if (curr_user.uid === user.uid) {
               found = true;
-              courts[i][j].ws = ws;
+              curr_user.ws = ws;
+              curr_user.name = user.name;
+              curr_user.partnerName = user.partnerName;
+              curr_user.event = user.event;
             }
           }
         }
-        console.log(`UpdateID ${msg.uid} (found: ${found})`);
+        sendCourts(ws);
+        console.log(`UpdateID ${user.uid} (found: ${found})`);
       }
     });
 

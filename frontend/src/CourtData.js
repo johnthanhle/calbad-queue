@@ -80,19 +80,17 @@ export default function CourtData(props) {
   const [selected, setSelected] = useState([]);
   const { user } = props;
   const columns = [
-    { field: "id", headerName: "ID", width: 60, editable: props.admin },
-    { field: "name", headerName: "Name", width: 100, editable: props.admin },
+    { field: "id", headerName: "ID", width: 60 },
+    { field: "name", headerName: "Name", width: 150 },
     {
       field: "partnerName",
       headerName: "Partner",
-      width: 100,
-      editable: props.admin,
+      width: 150,
     },
     {
       field: "event",
       headerName: "Event",
       width: 100,
-      editable: props.admin,
     },
   ];
   const courtNumber = {
@@ -170,7 +168,7 @@ export default function CourtData(props) {
             You must click the black checkbox icon to save all your information.
             If you are still able to edit any of the fields, it means that you
             have not saved your information by clicking the checkbox yet.
-            Required fields must be filled otherwise your information cannot be
+            Required fields must be filled, otherwise your information cannot be
             saved as well.
             <br></br>
             <br></br>
@@ -178,6 +176,11 @@ export default function CourtData(props) {
             for that court. You will only be able to sign up on one court at a
             time. You must leave the current court to be able to sign up on
             another court.
+            <br></br>
+            <br></br>
+            If you misspelled your name, your partner has changed, or you want
+            to change events then simply update it by following the same steps
+            stated above and it will be reflected in the court queue.
           </h4>
         </Box>
       )}
@@ -214,7 +217,6 @@ export default function CourtData(props) {
             editMode="row"
             rows={rows}
             columns={columns}
-            editable={props.admin}
             pageSize={10}
             rowsPerPageOptions={[10]}
             checkboxSelection

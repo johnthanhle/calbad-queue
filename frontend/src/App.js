@@ -79,8 +79,8 @@ function App() {
     if (user && wsConnected) {
       ws.send(
         JSON.stringify({
-          type: "update-id",
-          uid: user.uid,
+          type: "update-user",
+          value: user,
         })
       );
     }
