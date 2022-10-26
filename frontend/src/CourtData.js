@@ -127,6 +127,9 @@ export default function CourtData(props) {
     if (props.admin && hash !== adminHash) {
       do {
         password = prompt("Please enter the password to access this page!");
+        if (password === null) {
+          continue;
+        }
         hashVal = sha512(password);
         setHash(hashVal);
       } while (password === null || hashVal !== adminHash);
