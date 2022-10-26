@@ -9,8 +9,9 @@ import { styled } from "@mui/material/styles";
 import PlayerInfo from "./PlayerInfo";
 import { Add, Remove } from "@material-ui/icons";
 
-var sha512 = require("js-sha512");
-var adminHash =
+const sha512 = require("js-sha512");
+
+const adminHash =
   "d47d4b7a1758ca15eec81d5183996da0e94b929d5701acba4781ed8d05b21b9f4bcd0bc30791b375cb665db04b23054d3e65936838968b3370269d2ddbc56667";
 
 const StyledGridOverlay = styled(GridOverlay)(({ theme }) => ({
@@ -127,6 +128,9 @@ export default function CourtData(props) {
     if (props.admin && hash !== adminHash) {
       do {
         password = prompt("Please enter the password to access this page!");
+        if (password === null) {
+          continue;
+        }
         hashVal = sha512(password);
         setHash(hashVal);
       } while (password === null || hashVal !== adminHash);
