@@ -11,8 +11,8 @@ import { Add, Remove } from "@material-ui/icons";
 
 const sha512 = require("js-sha512");
 
-const adminHash =
-  "d47d4b7a1758ca15eec81d5183996da0e94b929d5701acba4781ed8d05b21b9f4bcd0bc30791b375cb665db04b23054d3e65936838968b3370269d2ddbc56667";
+// Add a hash here of the password + salt you want to gatekeep admin pages
+const adminHash = "";
 
 const StyledGridOverlay = styled(GridOverlay)(({ theme }) => ({
   flexDirection: "column",
@@ -131,6 +131,7 @@ export default function CourtData(props) {
         if (password === null) {
           continue;
         }
+        // Salt is added here for prod
         hashVal = sha512(password);
         setHash(hashVal);
       } while (password === null || hashVal !== adminHash);
