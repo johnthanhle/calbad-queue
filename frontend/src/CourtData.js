@@ -119,7 +119,7 @@ export default function CourtData(props) {
       for (var j = 0; j < courts[i].length; j++) {
         var user = courts[i][j];
         if (props.user.uid === user.uid) {
-          return { court: j + 1, found: true };
+          return { court: i + 1, found: true };
         }
       }
     }
