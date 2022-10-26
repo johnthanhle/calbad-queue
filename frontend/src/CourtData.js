@@ -179,7 +179,7 @@ export default function CourtData(props) {
             <br></br>
             <br></br>
             If you misspelled your name, your partner has changed, or you want
-            to change events then simply update it by following the same steps
+            to change events, then simply update it by following the same steps
             stated above and it will be reflected in the court queue.
           </h4>
         </Box>
