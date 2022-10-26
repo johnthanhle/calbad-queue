@@ -4,10 +4,14 @@ import { Box, Button, Container } from "@material-ui/core";
 import CourtTabs from "./CourtTabs";
 import logo from "./logo.png";
 import AdminTabs from "./AdminTabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import PlayerInfo from "./PlayerInfo";
 import { Add, Remove } from "@material-ui/icons";
+
+var sha512 = require("js-sha512");
+var adminHash =
+  "d47d4b7a1758ca15eec81d5183996da0e94b929d5701acba4781ed8d05b21b9f4bcd0bc30791b375cb665db04b23054d3e65936838968b3370269d2ddbc56667";
 
 const StyledGridOverlay = styled(GridOverlay)(({ theme }) => ({
   flexDirection: "column",
@@ -78,12 +82,15 @@ function CustomNoRowsOverlay() {
 
 export default function CourtData(props) {
   const [selected, setSelected] = useState([]);
+  const [hash, setHash] = useState("");
+
   const columns = [
     {
       field: "id",
       headerName: "ID",
       width: 100,
       sortable: false,
+      hide: !props.admin,
     },
     {
       field: "name",
@@ -113,6 +120,18 @@ export default function CourtData(props) {
     court6: 5,
   };
   const courtId = courtNumber[props.courtPath];
+
+  useEffect(() => {
+    let password;
+    let hashVal;
+    if (props.admin && hash !== adminHash) {
+      do {
+        password = prompt("Please enter the password to access this page!");
+        hashVal = sha512(password);
+        setHash(hashVal);
+      } while (password === null || hashVal !== adminHash);
+    }
+  }, [hash]);
 
   const handleDeletion = () => {
     const msg = {
@@ -177,7 +196,6 @@ export default function CourtData(props) {
   if (!Array.isArray(props.courts) || !props.courts.length) {
     rows = [];
   } else {
-    console.log(props.courts);
     rows = props.courts[courtId].map((user) => ({
       id: user.uid,
       name: user.name,
@@ -273,7 +291,6 @@ export default function CourtData(props) {
               columns={columns}
               pageSize={10}
               rowsPerPageOptions={[10]}
-              onRowEditStop={(event) => console.log(event)}
               onSelectionModelChange={(select) => setSelected(select)}
               disableColumnFilter
               disableColumnSelector
