@@ -113,7 +113,7 @@ const backend = () => {
             }
           }
         }
-        sendCourts(ws);
+        wss.clients.forEach(sendCourts);
         console.log(`UpdateID ${user.uid} (found: ${found})`);
       }
     });
