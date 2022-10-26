@@ -16,6 +16,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "js-cookie": "^3.0.1",
+    "js-sha512": "^0.8.0",
     "material-ui": "^0.15.0",
     "mui": "^0.0.1",
     "mui-datatables": "^4.0.0",

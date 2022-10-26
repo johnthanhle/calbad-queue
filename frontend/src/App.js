@@ -60,7 +60,6 @@ function App() {
     });
     client.addEventListener("message", function (event) {
       const msg = JSON.parse(event.data);
-      console.log(event);
       if (msg.type === "courts") {
         if (!Array.isArray(msg.value)) {
           console.log("WS ERROR: courts not array");
@@ -100,7 +99,6 @@ function App() {
   };
 
   const updateUser = (newUser) => {
-    console.log("NEW USER: ", newUser);
     Cookies.set("user", JSON.stringify(newUser), { expires: 7 });
     setUser(newUser);
   };
