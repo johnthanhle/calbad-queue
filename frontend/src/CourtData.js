@@ -199,6 +199,10 @@ export default function CourtData(props) {
             If you misspelled your name, your partner has changed, or you want
             to change events, then simply update it by following the same steps
             stated above and it will be reflected in the court queue.
+            <br></br>
+            <br></br>
+            Feel free to queue for doubles even if you don't have a partner. We
+            will try to find you one if you can't!
           </h4>
         </Box>
       )}
@@ -214,6 +218,7 @@ export default function CourtData(props) {
           </h4>
         </Box>
       )}
+      <br></br>
       {props.user && !props.admin && (
         <PlayerInfo
           user={props.user}
@@ -279,6 +284,7 @@ export default function CourtData(props) {
           </Box>
         </Box>
       )}
+      <br></br>
     </Container>
   );
 }
