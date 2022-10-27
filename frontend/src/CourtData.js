@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import PlayerInfo from "./PlayerInfo";
 import { Add, Remove } from "@material-ui/icons";
+import ResponseAppBar from "./AppBar";
+import Typography from "@mui/material/Typography";
 
 const sha512 = require("js-sha512");
 
@@ -210,137 +212,164 @@ export default function CourtData(props) {
   }
 
   return (
-    <Container maxWidth="sm">
-      <h1>
-        <center>Open Gym Queue</center>
-      </h1>
-      <Box
-        display="flex"
-        justifyContent="center"
-        sx={{ p: 2, border: "1px grey" }}
-      >
-        <img src={logo} alt="Queue is empty" />
-      </Box>
-      {!props.admin && (
-        <Box sx={{ p: 2, border: "0.25px dashed grey" }}>
-          <h4>
-            <strong>Instructions:</strong> <br></br>
-            Click on the respective Court # below to join and leave the queue
-            for that court. You will only be able to sign up on one court at a
-            time. You must leave the current court to be able to sign up on
-            another court.
-            <br></br>
-            <br></br>
-            If you misspelled your name, your partner has changed, or you want
-            to change events, then simply update it by following the same steps
-            stated above and it will be reflected in the court queue.
-            <br></br>
-            <br></br>
-            Feel free to queue for doubles even if you don't have a partner. We
-            will try to find you one if you can't!
-          </h4>
+    <Container>
+      <ResponseAppBar></ResponseAppBar>
+      <Container maxWidth="sm">
+        <Box display="flex" justifyContent="center" sx={{ p: 2 }}>
+          <Typography
+            variant="h4"
+            noWrap
+            component="a"
+            align="center"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "opensans",
+              fontWeight: 800,
+              letterSpacing: ".2rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            Open Gym Queue
+          </Typography>
         </Box>
-      )}
-      {props.admin && (
-        <Box sx={{ p: 2, border: "0.25px dashed grey" }}>
-          <h4>
-            <strong>Instructions:</strong> <br></br> In general, you shouldn't
-            need to use this at all since the queue should run itself. Only use
-            this functionality to nuke the queue for special reasons. For
-            example, a good use case would be to delete an entry for someone
-            whose partner is signed up for a court when they are already on
-            another court's queue.
-          </h4>
-        </Box>
-      )}
-      <br></br>
-      {props.user && !props.admin && (
-        <PlayerInfo
-          user={props.user}
-          defaultUser={props.defaultUser}
-          updateUser={props.updateUser}
-        ></PlayerInfo>
-      )}
-      {props.admin ? (
-        <AdminTabs value={courtId}></AdminTabs>
-      ) : (
-        <CourtTabs value={courtId}></CourtTabs>
-      )}
-      {props.admin ? (
-        <Box display="flex" justifyContent="center">
-          <div style={{ height: 400, width: "100%" }}>
-            <DataGrid
-              components={{
-                NoRowsOverlay: CustomNoRowsOverlay,
-              }}
-              editMode="row"
-              rows={rows}
-              columns={columns}
-              pageSize={10}
-              rowsPerPageOptions={[10]}
-              checkboxSelection
-              onRowEditStop={(event) => console.log(event)}
-              onSelectionModelChange={(select) => setSelected(select)}
-            />
-          </div>
-        </Box>
-      ) : (
-        <Box display="flex" justifyContent="center">
-          <div style={{ height: 400, width: "100%" }}>
-            <DataGrid
-              components={{
-                NoRowsOverlay: CustomNoRowsOverlay,
-              }}
-              editMode="row"
-              rows={rows}
-              columns={columns}
-              pageSize={10}
-              rowsPerPageOptions={[10]}
-              onSelectionModelChange={(select) => setSelected(select)}
-              disableColumnFilter
-              disableColumnSelector
-            />
-          </div>
-        </Box>
-      )}
+        {!props.admin && (
+          <Box sx={{ p: 4, border: "0.25px dashed grey" }}>
+            <Typography>
+              <strong>Cal Badminton Open Gym Times:</strong> <br></br>
+              Friday - 6:00 PM to 10:00 PM <br></br>
+              Sunday - 10:00 AM to 1:00 PM
+              <br></br>
+              <br></br>
+              <strong>Cal Badminton Practice Times:</strong> <br></br>
+              Saturday - 2:00 PM to 5:00 PM
+              <br></br>
+              <br></br>
+              Note that the times above are only for Cal Badminton members and
+              are unrelated to open recreational badminton hosted by the RSF.
+              Open gym and practice times may change or be cancelled, so be sure
+              to check Slack for announcements!
+              <br></br>
+              <br></br>
+              <strong>Instructions:</strong> <br></br>
+              Click on the respective Court # below to join and leave the queue
+              for that court. You will only be able to sign up on one court at a
+              time. You must leave the current court to be able to sign up on
+              another court.
+              <br></br>
+              <br></br>
+              If you misspelled your name, your partner has changed, or you want
+              to change events, then simply update it by following the same
+              steps stated above and it will be reflected in the court queue.
+              <br></br>
+              <br></br>
+              Feel free to queue for doubles even if you don't have a partner.
+              We will try to find you one if you can't!
+            </Typography>
+          </Box>
+        )}
+        {props.admin && (
+          <Box sx={{ p: 2, border: "0.25px dashed grey" }}>
+            <Typography>
+              <strong>Instructions:</strong> <br></br> In general, you shouldn't
+              need to use this at all since the queue should run itself. Only
+              use this functionality to nuke the queue for special reasons. For
+              example, a good use case would be to delete an entry for someone
+              whose partner is signed up for a court when they are already on
+              another court's queue.
+            </Typography>
+          </Box>
+        )}
+        <br></br>
+        {props.user && !props.admin && (
+          <PlayerInfo
+            user={props.user}
+            defaultUser={props.defaultUser}
+            updateUser={props.updateUser}
+          ></PlayerInfo>
+        )}
+        {props.admin ? (
+          <AdminTabs value={courtId}></AdminTabs>
+        ) : (
+          <CourtTabs value={courtId}></CourtTabs>
+        )}
+        {props.admin ? (
+          <Box display="flex" justifyContent="center">
+            <div style={{ height: 400, width: "100%" }}>
+              <DataGrid
+                components={{
+                  NoRowsOverlay: CustomNoRowsOverlay,
+                }}
+                editMode="row"
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                checkboxSelection
+                onRowEditStop={(event) => console.log(event)}
+                onSelectionModelChange={(select) => setSelected(select)}
+              />
+            </div>
+          </Box>
+        ) : (
+          <Box display="flex" justifyContent="center">
+            <div style={{ height: 400, width: "100%" }}>
+              <DataGrid
+                components={{
+                  NoRowsOverlay: CustomNoRowsOverlay,
+                }}
+                editMode="row"
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                onSelectionModelChange={(select) => setSelected(select)}
+                disableColumnFilter
+                disableColumnSelector
+              />
+            </div>
+          </Box>
+        )}
 
-      {props.admin ? (
-        <center>
-          <Box p={1}>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={handleDeletion}
-            >
-              Remove selected players from Court {courtId + 1}
-            </Button>
+        {props.admin ? (
+          <center>
+            <Box p={1}>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handleDeletion}
+              >
+                Remove selected players from Court {courtId + 1}
+              </Button>
+            </Box>
+          </center>
+        ) : (
+          <Box display="flex" flexDirection="row" justifyContent="center">
+            <Box p={1}>
+              <Button
+                onClick={handleJoinCourt}
+                color="primary"
+                variant="contained"
+                startIcon={<Add />}
+              >
+                Join Court {courtId + 1} Queue
+              </Button>
+            </Box>
+            <Box p={1}>
+              <Button
+                onClick={handleLeaveCourt}
+                color="secondary"
+                variant="contained"
+                startIcon={<Remove />}
+              >
+                Leave Court {courtId + 1} Queue
+              </Button>
+            </Box>
           </Box>
-        </center>
-      ) : (
-        <Box display="flex" flexDirection="row" justifyContent="center">
-          <Box p={1}>
-            <Button
-              onClick={handleJoinCourt}
-              color="primary"
-              variant="contained"
-              startIcon={<Add />}
-            >
-              Join Court {courtId + 1} Queue
-            </Button>
-          </Box>
-          <Box p={1}>
-            <Button
-              onClick={handleLeaveCourt}
-              color="secondary"
-              variant="contained"
-              startIcon={<Remove />}
-            >
-              Leave Court {courtId + 1} Queue
-            </Button>
-          </Box>
-        </Box>
-      )}
-      <br></br>
+        )}
+        <br></br>
+      </Container>
     </Container>
   );
 }

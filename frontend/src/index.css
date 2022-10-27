@@ -3,21 +3,17 @@
 body {
   background-color: #f3f6fa;
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 h2 {
-	border: 3px solid;
-	margin: 0;
-}
-
-img {
-  border-radius: 50%;
+  border: 3px solid;
+  margin: 0;
 }
