@@ -23,7 +23,7 @@ function ResponsiveAppBar() {
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar>
           <IconButton>
             <Avatar src={logo} />
           </IconButton>
@@ -34,17 +34,17 @@ function ResponsiveAppBar() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: "none", md: "flex" },
+
               fontFamily: "opensans",
-              fontWeight: 700,
-              letterSpacing: ".2rem",
+              fontWeight: 300,
+              letterSpacing: "0rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
             Cal Badminton
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1 }}>
             {pages.map((page) => (
               <Typography
                 variant="h8"
@@ -54,10 +54,9 @@ function ResponsiveAppBar() {
                 target="_blank"
                 sx={{
                   mr: 2,
-                  display: { xs: "none", md: "flex" },
                   fontFamily: "opensans",
-                  fontWeight: 500,
-                  letterSpacing: ".2rem",
+                  fontWeight: 300,
+                  letterSpacing: "0rem",
                   color: "inherit",
                   textDecoration: "none",
                 }}
