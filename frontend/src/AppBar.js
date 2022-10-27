@@ -40,6 +40,7 @@ function ResponsiveAppBar() {
               letterSpacing: "0rem",
               color: "inherit",
               textDecoration: "none",
+              whiteSpace: "normal",
             }}
           >
             Cal Badminton
@@ -59,6 +60,7 @@ function ResponsiveAppBar() {
                   letterSpacing: "0rem",
                   color: "inherit",
                   textDecoration: "none",
+                  whiteSpace: "normal",
                 }}
               >
                 {page.name}
