@@ -337,7 +337,7 @@ export default function CourtData(props) {
           <center>
             <Box p={1}>
               <Button
-                color="primary"
+                color="secondary"
                 variant="contained"
                 onClick={handleDeletion}
               >
