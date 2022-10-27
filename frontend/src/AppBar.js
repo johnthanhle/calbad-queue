@@ -12,7 +12,7 @@ const pages = [
   { name: "Website", url: "https://badminton.berkeley.edu/" },
   { name: "Slack", url: "https://cal-badminton.slack.com/signup" },
   { name: "Instagram", url: "https://www.instagram.com/cal_badminton/" },
-  { name: "Facebook", url: "https://www.facebook.com/calbadminton1" },
+  { name: "Facebook Page", url: "https://www.facebook.com/calbadminton1" },
   {
     name: "Facebook Group",
     url: "https://www.facebook.com/groups/calbadminton",
@@ -24,7 +24,7 @@ function ResponsiveAppBar() {
     <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar>
-          <IconButton>
+          <IconButton href="/">
             <Avatar src={logo} />
           </IconButton>
           <Typography
