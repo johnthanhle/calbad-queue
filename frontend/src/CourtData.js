@@ -251,9 +251,10 @@ export default function CourtData(props) {
               <br></br>
               <br></br>
               Note that the times above are only for Cal Badminton members and
-              are unrelated to open recreational badminton hosted by the RSF.
-              Open gym and practice times may change or be cancelled, so be sure
-              to check Slack for announcements!
+              are unrelated to open recreational badminton hosted by the RSF
+              with the exception of Sunday. Open gym and practice times may
+              change or be cancelled, so be sure to check Slack for
+              announcements!
               <br></br>
               <br></br>
               <strong>Instructions:</strong> <br></br>
