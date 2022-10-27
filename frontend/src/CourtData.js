@@ -13,7 +13,8 @@ import Typography from "@mui/material/Typography";
 const sha512 = require("js-sha512");
 
 // Add a hash here of the password + salt you want to gatekeep admin pages
-const adminHash = "";
+const adminHash =
+  "04003da001a9615a176b2ab11ca00e34d3fee0c37b75cd2adc9e448f74984f94958b7ba4bb0abae433c00d4f715e124ebec33911104ea4c2f1be143554a6ab69";
 
 const StyledGridOverlay = styled(GridOverlay)(({ theme }) => ({
   flexDirection: "column",
@@ -135,7 +136,7 @@ export default function CourtData(props) {
           continue;
         }
         // Salt is added here for prod
-        hashVal = sha512(password);
+        hashVal = sha512(password + "cal-badminton-is-awesome-69");
         setHash(hashVal);
       } while (password === null || hashVal !== adminHash);
     }
@@ -215,6 +216,9 @@ export default function CourtData(props) {
   return (
     <Container>
       <ResponseAppBar></ResponseAppBar>
+      <br></br>
+      <br></br>
+      <br></br>
       <Container maxWidth="sm">
         <Box display="flex" justifyContent="center" sx={{ p: 2 }}>
           <Typography
@@ -224,12 +228,12 @@ export default function CourtData(props) {
             align="center"
             sx={{
               mr: 2,
-              display: { xs: "none", md: "flex" },
               fontFamily: "opensans",
               fontWeight: 800,
               letterSpacing: ".2rem",
               color: "inherit",
               textDecoration: "none",
+              whiteSpace: "normal",
             }}
           >
             Open Gym Queue

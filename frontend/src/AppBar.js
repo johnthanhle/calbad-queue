@@ -21,7 +21,7 @@ const pages = [
 
 function ResponsiveAppBar() {
   return (
-    <AppBar position="sticky">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar>
           <IconButton>
@@ -34,13 +34,11 @@ function ResponsiveAppBar() {
             href="/"
             sx={{
               mr: 2,
-
               fontFamily: "opensans",
               fontWeight: 300,
               letterSpacing: "0rem",
               color: "inherit",
               textDecoration: "none",
-              whiteSpace: "normal",
             }}
           >
             Cal Badminton
@@ -60,7 +58,6 @@ function ResponsiveAppBar() {
                   letterSpacing: "0rem",
                   color: "inherit",
                   textDecoration: "none",
-                  whiteSpace: "normal",
                 }}
               >
                 {page.name}
