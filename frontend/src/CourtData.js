@@ -2,7 +2,6 @@ import * as React from "react";
 import { GridOverlay, DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Container } from "@material-ui/core";
 import CourtTabs from "./CourtTabs";
-import logo from "./logo.png";
 import AdminTabs from "./AdminTabs";
 import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
@@ -78,7 +77,9 @@ function CustomNoRowsOverlay() {
           </g>
         </g>
       </svg>
-      <Box sx={{ mt: 1 }}>No Players at the Moment!</Box>
+      <Box sx={{ mt: 1 }}>
+        <Typography>No Players at the Moment!</Typography>
+      </Box>
     </StyledGridOverlay>
   );
 }
