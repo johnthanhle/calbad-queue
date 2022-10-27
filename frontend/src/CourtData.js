@@ -230,7 +230,7 @@ export default function CourtData(props) {
               mr: 2,
               fontFamily: "opensans",
               fontWeight: 800,
-              letterSpacing: ".2rem",
+              letterSpacing: "0rem",
               color: "inherit",
               textDecoration: "none",
               whiteSpace: "normal",
