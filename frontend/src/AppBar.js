@@ -34,7 +34,6 @@ function ResponsiveAppBar() {
             href="/"
             sx={{
               mr: 2,
-              fontFamily: "opensans",
               fontWeight: 300,
               letterSpacing: "0rem",
               color: "inherit",
@@ -54,7 +53,6 @@ function ResponsiveAppBar() {
                 target="_blank"
                 sx={{
                   mr: 2,
-                  fontFamily: "opensans",
                   fontWeight: 300,
                   letterSpacing: "0rem",
                   color: "inherit",
