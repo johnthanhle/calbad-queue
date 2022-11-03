@@ -78,7 +78,7 @@ function CustomNoRowsOverlay() {
         </g>
       </svg>
       <Box sx={{ mt: 1 }}>
-        <Typography>No Players at the Moment!</Typography>
+        <Typography>No players at the moment!</Typography>
       </Box>
     </StyledGridOverlay>
   );
