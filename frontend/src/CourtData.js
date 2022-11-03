@@ -375,7 +375,6 @@ export default function CourtData(props) {
             </div>
           </Box>
         )}
-
         {props.admin ? (
           <center>
             <Box p={1}>

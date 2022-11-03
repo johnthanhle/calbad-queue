@@ -5,6 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import LayoutModal from "./LayoutModal";
 
 const PlayerInfo = (props) => {
   const [userName, setUserName] = useState(props.user.name);
@@ -118,6 +119,9 @@ const PlayerInfo = (props) => {
             <MenuItem value={"Doubles"}>Doubles</MenuItem>
           </Select>
         </FormControl>
+      </Grid>
+      <Grid item>
+        <LayoutModal></LayoutModal>
       </Grid>
     </Grid>
   );
