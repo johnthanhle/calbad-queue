@@ -183,7 +183,10 @@ export default function CourtData(props) {
 
   const handleLeaveCourt = () => {
     var courtPlayerInfo = playerInACourt();
-    if (courtPlayerInfo === undefined) {
+    if (
+      courtPlayerInfo === undefined ||
+      courtPlayerInfo.court !== courtId + 1
+    ) {
       alert(
         `You cannot leave Court ${
           courtId + 1
