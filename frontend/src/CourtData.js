@@ -227,7 +227,7 @@ export default function CourtData(props) {
             align="center"
             sx={{
               mr: 2,
-              fontWeight: 800,
+              fontWeight: "bold",
               letterSpacing: "0rem",
               color: "inherit",
               textDecoration: "none",

@@ -9,19 +9,19 @@ import Container from "@mui/material/Container";
 import logo from "./logo.png";
 
 const pages = [
-  { name: "Website", url: "https://badminton.berkeley.edu/" },
-  { name: "Slack", url: "https://cal-badminton.slack.com/signup" },
-  { name: "Instagram", url: "https://www.instagram.com/cal_badminton/" },
-  { name: "Facebook Page", url: "https://www.facebook.com/calbadminton1" },
+  { name: "WEBSITE", url: "https://badminton.berkeley.edu/" },
+  { name: "SLACK", url: "https://cal-badminton.slack.com/signup" },
+  { name: "INSTAGRAM", url: "https://www.instagram.com/cal_badminton/" },
+  { name: "FACEBOOK PAGE", url: "https://www.facebook.com/calbadminton1" },
   {
-    name: "Facebook Group",
+    name: "FACEBOOK GROUP",
     url: "https://www.facebook.com/groups/calbadminton",
   },
 ];
 
 function ResponsiveAppBar() {
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" style={{ background: "#003262" }}>
       <Container maxWidth="xl">
         <Toolbar>
           <IconButton href="/">
@@ -34,14 +34,14 @@ function ResponsiveAppBar() {
             href="/"
             sx={{
               mr: 2,
-              fontWeight: 300,
+              fontWeight: "bold",
               letterSpacing: "0rem",
               color: "inherit",
               textDecoration: "none",
               whiteSpace: "normal",
             }}
           >
-            Cal Badminton
+            CAL BADMINTON
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             {pages.map((page) => (
@@ -53,7 +53,7 @@ function ResponsiveAppBar() {
                 target="_blank"
                 sx={{
                   mr: 2,
-                  fontWeight: 300,
+                  fontWeight: "bold",
                   letterSpacing: "0rem",
                   color: "inherit",
                   textDecoration: "none",
