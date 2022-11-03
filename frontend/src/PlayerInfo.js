@@ -5,9 +5,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Tooltip from "@mui/material/Tooltip";
-import { Info } from "@material-ui/icons";
-import IconButton from "@mui/material/IconButton";
 import LayoutModal from "./LayoutModal";
 
 const PlayerInfo = (props) => {

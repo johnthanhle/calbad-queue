@@ -12,14 +12,11 @@ import Grid from "@mui/material/Grid";
 import ResponseAppBar from "./AppBar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import { Info } from "@material-ui/icons";
 
 const sha512 = require("js-sha512");
 
 // Add a hash here of the password + salt you want to gatekeep admin pages
-const adminHash =
-  "04003da001a9615a176b2ab11ca00e34d3fee0c37b75cd2adc9e448f74984f94958b7ba4bb0abae433c00d4f715e124ebec33911104ea4c2f1be143554a6ab69";
+const adminHash = "";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -149,7 +146,7 @@ export default function CourtData(props) {
           continue;
         }
         // Salt is added here for prod
-        hashVal = sha512(password + "cal-badminton-is-awesome-69");
+        hashVal = sha512(password);
         setHash(hashVal);
       } while (password === null || hashVal !== adminHash);
     }
