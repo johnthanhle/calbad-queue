@@ -274,7 +274,8 @@ export default function CourtData(props) {
               Click on the respective Court # below to join and leave the queue
               for that court. You will only be able to sign up on one court at a
               time. You must leave the current court to be able to sign up on
-              another court.
+              another court. If you are unsure of the court layout, please click
+              the info icon for the layout.
               <br></br>
               <br></br>
               If you misspelled your name, your partner has changed, or you want
