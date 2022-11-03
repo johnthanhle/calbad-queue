@@ -7,13 +7,24 @@ import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import PlayerInfo from "./PlayerInfo";
 import { Add, Remove } from "@material-ui/icons";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 import ResponseAppBar from "./AppBar";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
 const sha512 = require("js-sha512");
 
 // Add a hash here of the password + salt you want to gatekeep admin pages
 const adminHash = "";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 const StyledGridOverlay = styled(GridOverlay)(({ theme }) => ({
   flexDirection: "column",
@@ -168,7 +179,7 @@ export default function CourtData(props) {
     var courtPlayerInfo = playerInACourt();
     if (courtPlayerInfo && courtPlayerInfo.found) {
       alert(
-        `You cannot join the court becuase you are already on Court ${courtPlayerInfo.court}! Please leave Court ${courtPlayerInfo.court} to rejoin or join a new court!`
+        `You cannot join the court becuase you are already on Court ${courtPlayerInfo.court}! Please leave Court ${courtPlayerInfo.court} to join this court!`
       );
       return;
     }
@@ -296,6 +307,32 @@ export default function CourtData(props) {
             updateUser={props.updateUser}
           ></PlayerInfo>
         )}
+        <br></br>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+        >
+          {props.courts.map((_, index) => (
+            <Grid item xs={2} sm={4} md={4} key={index}>
+              <Item>
+                <IconButton
+                  href={
+                    props.admin
+                      ? `/court${index + 1}-admin`
+                      : `/court${index + 1}`
+                  }
+                >
+                  <Typography>
+                    Currently <strong>{props.courts[index].length}</strong> on
+                    COURT {index + 1}
+                  </Typography>
+                </IconButton>
+              </Item>
+            </Grid>
+          ))}
+        </Grid>
+        <br></br>
         {props.admin ? (
           <AdminTabs value={courtId}></AdminTabs>
         ) : (
