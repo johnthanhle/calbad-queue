@@ -325,8 +325,8 @@ export default function CourtData(props) {
                   }
                 >
                   <Typography>
-                    Currently <strong>{props.courts[index].length}</strong> on
-                    COURT {index + 1}
+                    Currently <strong>{props.courts[index].length}</strong>{" "}
+                    waiting on COURT {index + 1}
                   </Typography>
                 </IconButton>
               </Item>
