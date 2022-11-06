@@ -10,6 +10,7 @@ const DEFAULT_USER = {
   name: undefined,
   partnerName: undefined,
   event: undefined,
+  authenticated: false,
 };
 const WS_RETRY_TIME = 5000;
 

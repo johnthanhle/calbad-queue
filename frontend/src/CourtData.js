@@ -3,18 +3,24 @@ import { GridOverlay, DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Container } from "@material-ui/core";
 import CourtTabs from "./CourtTabs";
 import AdminTabs from "./AdminTabs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import PlayerInfo from "./PlayerInfo";
 import { Add, Remove } from "@material-ui/icons";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 import ResponseAppBar from "./AppBar";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const sha512 = require("js-sha512");
-
-// Add a hash here of the password + salt you want to gatekeep admin pages
-const adminHash =
-  "04003da001a9615a176b2ab11ca00e34d3fee0c37b75cd2adc9e448f74984f94958b7ba4bb0abae433c00d4f715e124ebec33911104ea4c2f1be143554a6ab69";
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 const StyledGridOverlay = styled(GridOverlay)(({ theme }) => ({
   flexDirection: "column",
@@ -79,7 +85,7 @@ function CustomNoRowsOverlay() {
         </g>
       </svg>
       <Box sx={{ mt: 1 }}>
-        <Typography>No Players at the Moment!</Typography>
+        <Typography>No players at the moment!</Typography>
       </Box>
     </StyledGridOverlay>
   );
@@ -87,7 +93,6 @@ function CustomNoRowsOverlay() {
 
 export default function CourtData(props) {
   const [selected, setSelected] = useState([]);
-  const [hash, setHash] = useState("");
 
   const columns = [
     {
@@ -126,21 +131,21 @@ export default function CourtData(props) {
   };
   const courtId = courtNumber[props.courtPath];
 
-  useEffect(() => {
-    let password;
-    let hashVal;
-    if (props.admin && hash !== adminHash) {
-      do {
-        password = prompt("Please enter the password to access this page!");
-        if (password === null) {
-          continue;
-        }
-        // Salt is added here for prod
-        hashVal = sha512(password + "cal-badminton-is-awesome-69");
-        setHash(hashVal);
-      } while (password === null || hashVal !== adminHash);
-    }
-  }, [hash]);
+  if (
+    props.admin &&
+    (props.user === undefined || (props.user && !props.user.authenticated))
+  ) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <CircularProgress size={100} />
+      </Box>
+    );
+  }
 
   const handleDeletion = () => {
     const msg = {
@@ -169,7 +174,7 @@ export default function CourtData(props) {
     var courtPlayerInfo = playerInACourt();
     if (courtPlayerInfo && courtPlayerInfo.found) {
       alert(
-        `You cannot join the court becuase you are already on Court ${courtPlayerInfo.court}! Please leave Court ${courtPlayerInfo.court} to rejoin or join a new court!`
+        `You cannot join the court becuase you are already on Court ${courtPlayerInfo.court}! Please leave Court ${courtPlayerInfo.court} to join this court!`
       );
       return;
     }
@@ -184,7 +189,10 @@ export default function CourtData(props) {
 
   const handleLeaveCourt = () => {
     var courtPlayerInfo = playerInACourt();
-    if (courtPlayerInfo === undefined) {
+    if (
+      courtPlayerInfo === undefined ||
+      courtPlayerInfo.court !== courtId + 1
+    ) {
       alert(
         `You cannot leave Court ${
           courtId + 1
@@ -215,7 +223,11 @@ export default function CourtData(props) {
 
   return (
     <Container>
-      <ResponseAppBar></ResponseAppBar>
+      <ResponseAppBar
+        user={props.user}
+        wsSend={props.wsSend}
+        updateUser={props.updateUser}
+      ></ResponseAppBar>
       <br></br>
       <br></br>
       <br></br>
@@ -228,7 +240,7 @@ export default function CourtData(props) {
             align="center"
             sx={{
               mr: 2,
-              fontWeight: 800,
+              fontWeight: "bold",
               letterSpacing: "0rem",
               color: "inherit",
               textDecoration: "none",
@@ -251,16 +263,21 @@ export default function CourtData(props) {
               <br></br>
               <br></br>
               Note that the times above are only for Cal Badminton members and
-              are unrelated to open recreational badminton hosted by the RSF.
-              Open gym and practice times may change or be cancelled, so be sure
-              to check Slack for announcements!
+              are unrelated to open recreational badminton hosted by the RSF
+              with the exception of Sunday. Open gym and practice times may
+              change or be cancelled, so be sure to check Slack for
+              announcements!
               <br></br>
               <br></br>
               <strong>Instructions:</strong> <br></br>
               Click on the respective Court # below to join and leave the queue
               for that court. You will only be able to sign up on one court at a
               time. You must leave the current court to be able to sign up on
-              another court.
+              another court.{" "}
+              <strong>
+                If you are unsure of the court layout, please click the info
+                icon for the layout.
+              </strong>
               <br></br>
               <br></br>
               If you misspelled your name, your partner has changed, or you want
@@ -286,13 +303,39 @@ export default function CourtData(props) {
           </Box>
         )}
         <br></br>
-        {props.user && !props.admin && (
+        {props.user && (
           <PlayerInfo
             user={props.user}
             defaultUser={props.defaultUser}
             updateUser={props.updateUser}
           ></PlayerInfo>
         )}
+        <br></br>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+        >
+          {props.courts.map((_, index) => (
+            <Grid item xs={2} sm={4} md={4} key={index}>
+              <Item>
+                <IconButton
+                  href={
+                    props.admin
+                      ? `/court${index + 1}-admin`
+                      : `/court${index + 1}`
+                  }
+                >
+                  <Typography>
+                    Currently <strong>{props.courts[index].length}</strong>{" "}
+                    waiting on COURT {index + 1}
+                  </Typography>
+                </IconButton>
+              </Item>
+            </Grid>
+          ))}
+        </Grid>
+        <br></br>
         {props.admin ? (
           <AdminTabs value={courtId}></AdminTabs>
         ) : (
@@ -335,7 +378,6 @@ export default function CourtData(props) {
             </div>
           </Box>
         )}
-
         {props.admin ? (
           <center>
             <Box p={1}>

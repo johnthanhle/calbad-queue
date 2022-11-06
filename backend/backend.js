@@ -47,7 +47,9 @@ const backend = () => {
             name: item.name,
             partnerName: item.partnerName,
             event: item.event,
+            authenticated: item.authenticated,
           });
+          console.log(item);
         });
         courtsCopy.push(courtCopy);
       });
@@ -110,6 +112,11 @@ const backend = () => {
               curr_user.name = user.name;
               curr_user.partnerName = user.partnerName;
               curr_user.event = user.event;
+              if (user.authenticated !== undefined) {
+                curr_user.authenticated = user.authenticated;
+              } else {
+                curr_user = curr_user.authenticated;
+              }
             }
           }
         }
