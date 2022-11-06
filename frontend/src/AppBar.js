@@ -26,6 +26,10 @@ const pages = [
 const adminHash = "";
 function ResponsiveAppBar(props) {
   const handleAdminClick = () => {
+    if (props.user && props.user.authenticated) {
+      window.open("/admin", "_blank");
+      return;
+    }
     let password;
     let hashVal;
     password = prompt(
